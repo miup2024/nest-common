@@ -8,6 +8,11 @@
     "nest",
     "config"
   ],
+  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config"
+  },
   "private": false,
   "main": "dist/index.js",
   "scripts": {

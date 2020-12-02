@@ -10,10 +10,10 @@
     "nest"
   ],
   "description": "",
-  "homepage": "https://github.com/tw949561391/nest-common/tree/master/libs/nest-ali-sms",
+  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tw949561391/nest-common/tree/master/libs/nest-ali-sms"
+    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms"
   },
   "private": false,
   "main": "dist/index.js",
