@@ -1,34 +1,34 @@
 {
-  "name": "@miup/nest-oauth",
-  "version": "2.0.9",
-  "description": "",
-  "private": false,
-  "main": "dist/index.js",
-  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-oauth",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-oauth"
-  },
-  "scripts": {
-    "build": "tsc && npm publish --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@nestjs/jwt": "*",
-    "@nestjs/passport": "*",
-    "jsonwebtoken": "*",
-    "passport": "*",
-    "passport-jwt": "*",
-    "passport-local": "*"
-  },
-  "devDependencies": {
-    "@types/passport-jwt": "*",
-    "@types/passport-local": "*",
-    "@nestjs/common": "*",
-    "@nestjs/core": "*",
-    "reflect-metadata": "*",
-    "rimraf": "*",
-    "rxjs": "*"
-  }
+    "name": "@miup/nest-oauth",
+    "version": "2.1.0",
+    "description": "",
+    "private": false,
+    "main": "dist/index.js",
+    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-oauth",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-oauth"
+    },
+    "scripts": {
+        "build": "tsc "
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@nestjs/jwt": "*",
+        "@nestjs/passport": "*",
+        "jsonwebtoken": "*",
+        "passport": "*",
+        "passport-jwt": "*",
+        "passport-local": "*"
+    },
+    "devDependencies": {
+        "@types/passport-jwt": "*",
+        "@types/passport-local": "*",
+        "@nestjs/common": "*",
+        "@nestjs/core": "*",
+        "reflect-metadata": "*",
+        "rimraf": "*",
+        "rxjs": "*"
+    }
 }

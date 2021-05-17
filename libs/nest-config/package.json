@@ -1,34 +1,34 @@
 {
-  "name": "@miup/nest-config",
-  "version": "2.0.9",
-  "description": "",
-  "keywords": [
-    "miup",
-    "nestjs",
-    "nest",
-    "config"
-  ],
-  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config"
-  },
-  "private": false,
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc && npm publish --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^8.2.0",
-    "dotenv-extended": "^2.7.1"
-  },
-  "devDependencies": {
-    "@nestjs/common": "^7.0.1",
-    "@nestjs/core": "^7.0.1",
-    "reflect-metadata": "*",
-    "rimraf": "*",
-    "rxjs": "*"
-  }
+    "name": "@miup/nest-config",
+    "version": "2.1.0",
+    "description": "",
+    "keywords": [
+        "miup",
+        "nestjs",
+        "nest",
+        "config"
+    ],
+    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config"
+    },
+    "private": false,
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc "
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "dotenv-extended": "^2.7.1"
+    },
+    "devDependencies": {
+        "@nestjs/common": "^7.0.1",
+        "@nestjs/core": "^7.0.1",
+        "reflect-metadata": "*",
+        "rimraf": "*",
+        "rxjs": "*"
+    }
 }

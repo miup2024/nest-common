@@ -1,35 +1,35 @@
 {
-  "name": "@miup/nest-ali-sms",
-  "version": "2.0.9",
-  "keywords": [
-    "ali",
-    "sms",
-    "短信",
-    "miup",
-    "nestjs",
-    "nest"
-  ],
-  "description": "",
-  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms"
-  },
-  "private": false,
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc && npm publish --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@alicloud/sms-sdk": "*"
-  },
-  "devDependencies": {
-    "@nestjs/common": "^7.0.1",
-    "@nestjs/core": "^7.0.1",
-    "reflect-metadata": "*",
-    "rimraf": "*",
-    "rxjs": "*"
-  }
+    "name": "@miup/nest-ali-sms",
+    "version": "2.1.0",
+    "keywords": [
+        "ali",
+        "sms",
+        "短信",
+        "miup",
+        "nestjs",
+        "nest"
+    ],
+    "description": "",
+    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-ali-sms"
+    },
+    "private": false,
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc "
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@alicloud/sms-sdk": "*"
+    },
+    "devDependencies": {
+        "@nestjs/common": "^7.0.1",
+        "@nestjs/core": "^7.0.1",
+        "reflect-metadata": "*",
+        "rimraf": "*",
+        "rxjs": "*"
+    }
 }

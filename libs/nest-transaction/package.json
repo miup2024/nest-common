@@ -1,30 +1,30 @@
 {
-  "name": "@miup/nest-transaction",
-  "version": "2.0.9",
-  "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction"
-  },
-  "description": "",
-  "private": false,
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc && npm publish --access public"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "typeorm-transactional-cls-hooked": "*"
-  },
-  "devDependencies": {
-    "@nestjs/common": "*",
-    "@nestjs/core": "*",
-    "reflect-metadata": "*",
-    "rimraf": "*",
-    "rxjs": "*"
-  },
-  "optionalDependencies": {
-    "typeorm": "*"
-  }
+    "name": "@miup/nest-transaction",
+    "version": "0.0.1",
+    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction"
+    },
+    "description": "",
+    "private": false,
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc "
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "typeorm-transactional-cls-hooked": "*"
+    },
+    "devDependencies": {
+        "@nestjs/common": "*",
+        "@nestjs/core": "*",
+        "reflect-metadata": "*",
+        "rimraf": "*",
+        "rxjs": "*"
+    },
+    "optionalDependencies": {
+        "typeorm": "*"
+    }
 }
