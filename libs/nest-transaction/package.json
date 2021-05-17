@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-transaction",
-    "version": "0.0.1",
+    "version": "2.1.0",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction",
     "repository": {
         "type": "git",
