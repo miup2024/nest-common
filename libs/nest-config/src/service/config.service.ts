@@ -48,7 +48,7 @@ export class ConfigService {
     return this.get<string>(key, defaultValue);
   }
 
-  getNumber(key: string, defaultValue: number): number {
+  getNumber(key: string, defaultValue?: number): number {
     const v = this.envConfig[key];
     if (v) {
       return parseFloat(v);
@@ -57,7 +57,7 @@ export class ConfigService {
     }
   }
 
-  getBoolean(key: string, defaultValue: boolean): boolean {
+  getBoolean(key: string, defaultValue?: boolean): boolean {
     const v = this.envConfig[key];
     if (v) {
       return v.toUpperCase() === 'TRUE';
