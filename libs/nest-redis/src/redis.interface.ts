@@ -16,4 +16,4 @@ export interface RedisModuleAsyncOptions extends Pick<ModuleMetadata, "imports">
   inject?: any[];
 }
 
-export const REDIS_MODULE_OPTIONS = Symbol("REDIS_MODULE_OPTIONS");
+export const PROVIDER_REDIS_MODULE_OPTIONS = Symbol("REDIS_MODULE_OPTIONS");

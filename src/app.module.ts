@@ -12,11 +12,17 @@ import { SubModule } from './sub-module/sub.module';
 
 @Module({
   imports: [
-    Log4jModule.register({
-      pkgName: 'miup-common',
-    }),
+
     ConfigModule.register({
       env: 'develop',
+    }),
+    Log4jModule.registerAsync({
+      useFactory: (conf: ConfigService) => {
+        return {
+          pkgName: 'miup-common',
+        };
+      },
+      inject: [ConfigService],
     }),
     OauthServerModule.registerAsync({
       imports: [LocalOauthModule],
@@ -33,6 +39,7 @@ import { SubModule } from './sub-module/sub.module';
       },
       inject: [OauthStoreService, ConfigService],
     }),
+
     OauthClientModule.registerAsync({
       useFactory: (conf: ConfigService) => {
         return {
@@ -40,7 +47,6 @@ import { SubModule } from './sub-module/sub.module';
             secretOrPrivateKey: '123',
           },
         };
-
       },
       inject: [ConfigService],
     }),
@@ -50,11 +56,16 @@ import { SubModule } from './sub-module/sub.module';
         secretAccessKey: 'sss',
       },
     }),
-    RedisModule.register({
-      name: 'default',
-      host: '192.168.1.102',
-      port: 6379,
-      db: 1,
+    RedisModule.registerAsync({
+      useFactory: (conf: ConfigService) => {
+        return {
+          name: 'default',
+          host: '192.168.1.102',
+          port: 6379,
+          db: 1,
+        };
+      },
+      inject: [ConfigService],
     }),
     SubModule,
   ],

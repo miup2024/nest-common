@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-log4j",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "",
     "main": "dist/index.js",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-log4j",

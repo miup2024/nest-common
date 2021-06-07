@@ -1,5 +1,5 @@
 import { DynamicModule, FactoryProvider, Global, Module, ValueProvider } from "@nestjs/common";
-import { REDIS_MODULE_OPTIONS, RedisModuleAsyncOptions, RedisModuleOptions } from "./redis.interface";
+import { PROVIDER_REDIS_MODULE_OPTIONS, RedisModuleAsyncOptions, RedisModuleOptions } from "./redis.interface";
 import { RedisService } from "./redis.service";
 
 @Global()
@@ -8,7 +8,7 @@ export class RedisModule {
 
   public static registerAsync(options: RedisModuleAsyncOptions): DynamicModule {
     const configProvider: FactoryProvider = {
-      provide: REDIS_MODULE_OPTIONS,
+      provide: PROVIDER_REDIS_MODULE_OPTIONS,
       useFactory: options.useFactory,
       inject: options.inject
     };
@@ -18,7 +18,7 @@ export class RedisModule {
       useFactory: (options: RedisModuleOptions | RedisModuleOptions[]) => {
         return new RedisService(options);
       },
-      inject: [REDIS_MODULE_OPTIONS]
+      inject: [PROVIDER_REDIS_MODULE_OPTIONS]
     };
 
     return {
@@ -35,14 +35,14 @@ export class RedisModule {
   public static register(options: RedisModuleOptions | RedisModuleOptions[]) {
     const configProvider: ValueProvider = {
       useValue: options,
-      provide: REDIS_MODULE_OPTIONS
+      provide: PROVIDER_REDIS_MODULE_OPTIONS
     };
     const createClientProvider: FactoryProvider = {
       provide: RedisService,
       useFactory: (options: RedisModuleOptions | RedisModuleOptions[]) => {
         return new RedisService(options);
       },
-      inject: [REDIS_MODULE_OPTIONS]
+      inject: [PROVIDER_REDIS_MODULE_OPTIONS]
     };
     return {
       module: RedisModule,

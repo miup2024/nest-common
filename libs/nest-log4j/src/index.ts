@@ -54,26 +54,24 @@ export class Log4jModule {
     };
   }
 
-  public static registerAsync(asyncOption: Log4jAsyncOptions): DynamicModule {
+  public static registerAsync(options: Log4jAsyncOptions): DynamicModule {
+    const optionsProvider = {
+      provide: PROVIDER_LOG4J_MODULE_OPTION,
+      useFactory: options.useFactory,
+      inject: options.inject || [],
+    };
+
     const log4jProvider: FactoryProvider = {
       provide: Log4j,
       useFactory: (options: Log4jOptions) => {
-        return new Log4j(options);
+        return new Log4j(Object.assign(defaultLog4jOptions, options));
       },
       inject: [PROVIDER_LOG4J_MODULE_OPTION],
     };
-    const optionsProvider = {
-      provide: PROVIDER_LOG4J_MODULE_OPTION,
-      useFactory: async () => {
-        // eslint-disable-next-line prefer-rest-params
-        const op = await asyncOption.useFactory(arguments);
-        return Object.assign(defaultLog4jOptions, op);
-      },
-      inject: asyncOption.inject || [],
-    };
+
     return {
       module: Log4jModule,
-      imports: asyncOption.imports,
+      imports: options.imports || [],
       providers: [optionsProvider, log4jProvider],
       exports: [log4jProvider],
     };
