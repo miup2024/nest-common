@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-redis",
-    "version": "2.1.1",
+    "version": "2.1.3",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-redis",
     "repository": {
         "type": "git",

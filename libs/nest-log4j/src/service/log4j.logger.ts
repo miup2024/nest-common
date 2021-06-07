@@ -1,10 +1,10 @@
 import { Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
 import * as Log4js from 'log4js';
+import { Configuration } from 'log4js';
 import * as Path from 'path';
 import { Log4jOptions, PROVIDER_LOG4J_MODULE_OPTION } from '../index';
 import * as clc from 'cli-color';
 import { isObject } from '@nestjs/common/utils/shared.utils';
-import { Configuration, Levels } from 'log4js';
 
 const yellow = clc.xterm(3);
 
@@ -16,8 +16,8 @@ export class Log4j implements LoggerService {
   private logInstanceError: Log4js.Logger;
   private logInstanceVerbose: Log4js.Logger;
 
-  constructor(@Inject(PROVIDER_LOG4J_MODULE_OPTION)options: Log4jOptions) {
-    const defaultConfig:Configuration = {
+  constructor(@Inject(PROVIDER_LOG4J_MODULE_OPTION) options: Log4jOptions) {
+    const defaultConfig: Configuration = {
       appenders: {
         stdout: { type: 'stdout' },
         all: {
@@ -65,6 +65,7 @@ export class Log4j implements LoggerService {
     this.logInstanceWarning = Log4js.getLogger('warning');
     this.logInstanceError = Log4js.getLogger('error');
     this.logInstanceVerbose = Log4js.getLogger('all');
+    this.overwriteContextLogger()
   }
 
   error(message: any, trace?: string, context?: string): any {
@@ -109,4 +110,9 @@ export class Log4j implements LoggerService {
     const contextMessage = context ? yellow(`[${context}] `) : '';
     return `${pidMessage}  ${contextMessage}${output}`;
   };
+
+
+  private overwriteContextLogger() {
+    Logger.overrideLogger(this);
+  }
 }
