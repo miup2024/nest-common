@@ -1,8 +1,16 @@
-import { All, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { All, Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthPrinciple, JwtOAuthGuard, JwtTokenGuard, Principle } from '@miup/nest-oauth';
 
 @Controller('demo')
 export class AppController {
+  logger = new Logger(AppController.name);
+
+  constructor() {
+    this.logger.debug('----');
+    this.logger.log('----');
+    this.logger.error('----');
+    this.logger.warn('----');
+  }
 
 
   @Post('authorie')

@@ -47,16 +47,15 @@ export class Log4j implements LoggerService {
         },
       },
       categories: {
-        default: { appenders: ['stdout', 'debug'], level: 'debug' },
-        debug: { appenders: ['stdout', 'debug'], level: 'debug' },
-        error: { appenders: ['stdout', 'error'], level: 'error' },
-        info: { appenders: ['stdout', 'info'], level: 'info' },
-        warning: { appenders: ['stdout', 'warning'], level: 'warn' },
-        all: { appenders: ['stdout', 'warning'], level: 'warn' },
+        default: { appenders: ['stdout', 'debug'], level: options.level },
+        debug: { appenders: ['stdout', 'debug'], level: options.level },
+        error: { appenders: ['stdout', 'error'], level: options.level },
+        info: { appenders: ['stdout', 'info'], level: options.level },
+        warning: { appenders: ['stdout', 'warning'], level: options.level },
+        all: { appenders: ['all'], level: options.level },
       },
       pm2: options.pm2,
       pm2InstanceVar: options.pm2InstanceVar,
-      levels: options.levels,
       disableClustering: options.disableClustering,
     };
     Log4js.configure(defaultConfig);
@@ -65,7 +64,7 @@ export class Log4j implements LoggerService {
     this.logInstanceWarning = Log4js.getLogger('warning');
     this.logInstanceError = Log4js.getLogger('error');
     this.logInstanceVerbose = Log4js.getLogger('all');
-    this.overwriteContextLogger()
+    this.overwriteContextLogger();
   }
 
   error(message: any, trace?: string, context?: string): any {

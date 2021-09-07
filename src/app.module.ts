@@ -12,7 +12,6 @@ import { SubModule } from './sub-module/sub.module';
 
 @Module({
   imports: [
-
     ConfigModule.register({
       env: 'develop',
     }),
@@ -39,7 +38,6 @@ import { SubModule } from './sub-module/sub.module';
       },
       inject: [OauthStoreService, ConfigService],
     }),
-
     OauthClientModule.registerAsync({
       useFactory: (conf: ConfigService) => {
         return {

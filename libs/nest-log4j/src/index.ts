@@ -3,7 +3,6 @@ import { ModuleMetadata } from '@nestjs/common/interfaces';
 import { Log4j } from './service/log4j.logger';
 import * as os from 'os';
 import * as Path from 'path';
-import { Levels } from 'log4js';
 
 export const PROVIDER_LOG4J_MODULE_OPTION = 'PROVIDER_LOG4J_MODULE_OPTION';
 
@@ -12,7 +11,7 @@ export interface Log4jOptions {
   pkgName?: string;
   pm2?: boolean;
   pm2InstanceVar?: string;
-  levels?: Levels;
+  level?: 'debug' | 'info' | 'warn' | 'error';
   disableClustering?: boolean;
 }
 
@@ -22,6 +21,7 @@ const defaultLog4jOptions = {
   pm2: true,
   pm2InstanceVar: 'INSTANCE_ID',
   disableClustering: false,
+  level: 'debug',
 };
 
 
@@ -45,7 +45,7 @@ export class Log4jModule {
     };
     const optionsProvider: ValueProvider = {
       provide: PROVIDER_LOG4J_MODULE_OPTION,
-      useValue: Object.assign(defaultLog4jOptions, options),
+      useValue: Object.assign({}, defaultLog4jOptions, options),
     };
     return {
       module: Log4jModule,
@@ -64,7 +64,7 @@ export class Log4jModule {
     const log4jProvider: FactoryProvider = {
       provide: Log4j,
       useFactory: (options: Log4jOptions) => {
-        return new Log4j(Object.assign(defaultLog4jOptions, options));
+        return new Log4j(Object.assign({}, defaultLog4jOptions, options));
       },
       inject: [PROVIDER_LOG4J_MODULE_OPTION],
     };

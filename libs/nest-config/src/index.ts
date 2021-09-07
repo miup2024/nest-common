@@ -1,6 +1,5 @@
-import { DynamicModule, Global, Module, Provider } from "@nestjs/common";
-import * as path from "path";
-import { ConfigService } from "./service/config.service";
+import { DynamicModule, Global, Module } from '@nestjs/common';
+import { ConfigService } from './service/config.service';
 
 @Global()
 @Module({})

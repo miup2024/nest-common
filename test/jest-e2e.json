@@ -22,6 +22,8 @@
     "@miup/nest-redis/(.*)": "<rootDir>/../libs/nest-redis/src/$1",
     "@miup/nest-redis": "<rootDir>/../libs/nest-redis/src",
     "miup/nest-transaction/(.*)": "<rootDir>/../libs/nest-transaction/src/$1",
-    "miup/nest-transaction": "<rootDir>/../libs/nest-transaction/src"
+    "miup/nest-transaction": "<rootDir>/../libs/nest-transaction/src",
+    "y/nest-mailer/(.*)": "<rootDir>/../libs/nest-mailer/src/$1",
+    "y/nest-mailer": "<rootDir>/../libs/nest-mailer/src"
   }
 }
