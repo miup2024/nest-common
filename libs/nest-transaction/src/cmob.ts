@@ -7,7 +7,6 @@ import {
   TransactionalError,
 } from 'typeorm-transactional-cls-hooked';
 
-
 export {
   HslTransactional,
   BaseRepository,

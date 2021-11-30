@@ -1,10 +1,13 @@
-import { RedisModuleOptions } from "./redis.interface";
-import * as RedisClient from "ioredis";
-import { Logger } from "@nestjs/common";
+import { RedisModuleOptions } from './redis.interface';
+import * as RedisClient from 'ioredis';
+import { Logger } from '@nestjs/common';
 
 export class RedisService {
-  private defaultLabel: symbol = Symbol("default_redis_label");
-  private clientMap: Map<symbol, RedisClient.Redis> = new Map<any, RedisClient.Redis>();
+  private defaultLabel: symbol = Symbol('default_redis_label');
+  private clientMap: Map<symbol, RedisClient.Redis> = new Map<
+    any,
+    RedisClient.Redis
+  >();
   private logger: Logger = new Logger(RedisService.name);
 
   constructor(private options: RedisModuleOptions | RedisModuleOptions[]) {

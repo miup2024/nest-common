@@ -6,8 +6,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import * as jwt from 'jsonwebtoken';
 import { JwtAuthGuardClass } from './guard/auth.guard';
 
-export const OAUTH_CLIENT_MODULE_OPTIONS = "OAUTH_CLIENT_MODULE_OPTIONS";
-
+export const OAUTH_CLIENT_MODULE_OPTIONS = 'OAUTH_CLIENT_MODULE_OPTIONS';
 
 export interface VerifyJwtOptions {
   secretOrPrivateKey: jwt.Secret;
@@ -16,28 +15,30 @@ export interface VerifyJwtOptions {
 }
 
 export interface OauthClientModuleOptions {
-  fromRequest?: Array<"body" | "header" | "query" | "cookie">,
+  fromRequest?: Array<'body' | 'header' | 'query' | 'cookie'>;
   defaultScopes?: string;
-  jwt: VerifyJwtOptions
+  jwt: VerifyJwtOptions;
 }
 
-
-export interface OauthClientModuleAsyncOptions extends Pick<ModuleMetadata, "imports"> {
+export interface OauthClientModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports'> {
   useFactory?: (
     ...args: any[]
   ) => Promise<OauthClientModuleOptions> | OauthClientModuleOptions;
   inject?: any[];
-  extraProviders?: []
+  extraProviders?: [];
 }
 
 @Global()
 @Module({})
 export class OauthClientModule {
-  public static registerAsync(options: OauthClientModuleAsyncOptions): DynamicModule {
+  public static registerAsync(
+    options: OauthClientModuleAsyncOptions,
+  ): DynamicModule {
     const configProvider: FactoryProvider = {
       provide: OAUTH_CLIENT_MODULE_OPTIONS,
       useFactory: options.useFactory,
-      inject: options.inject || []
+      inject: options.inject || [],
     };
     const jwtStrategyProvider: FactoryProvider = {
       provide: JwtStrategy,
@@ -45,29 +46,22 @@ export class OauthClientModule {
         const fromTypes = new Set(options.fromRequest || []);
         return new JwtStrategy(fromTypes, options.jwt);
       },
-      inject: [OAUTH_CLIENT_MODULE_OPTIONS]
+      inject: [OAUTH_CLIENT_MODULE_OPTIONS],
     };
     return {
       module: OauthClientModule,
       imports: [
         ...(options.imports || []),
-        PassportModule.register({ defaultStrategy: "jwt" }),
+        PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.registerAsync({
           useFactory: (options: OauthClientModuleOptions) => {
             return options.jwt;
           },
-          inject: [OAUTH_CLIENT_MODULE_OPTIONS]
-        } as JwtModuleAsyncOptions)
+          inject: [OAUTH_CLIENT_MODULE_OPTIONS],
+        } as JwtModuleAsyncOptions),
       ],
-      providers: [
-        jwtStrategyProvider,
-        configProvider,
-        JwtAuthGuardClass
-      ],
-      exports: [
-        jwtStrategyProvider,
-        configProvider
-      ]
+      providers: [jwtStrategyProvider, configProvider, JwtAuthGuardClass],
+      exports: [jwtStrategyProvider, configProvider],
     };
   }
 
@@ -76,23 +70,17 @@ export class OauthClientModule {
     const jwtStrategy = new JwtStrategy(fromTypes, options.jwt);
     const jwtStrategyProvider: ValueProvider = {
       provide: JwtStrategy,
-      useValue: jwtStrategy
+      useValue: jwtStrategy,
     };
 
     return {
       module: OauthClientModule,
       imports: [
-        PassportModule.register({ defaultStrategy: "jwt" }),
-        JwtModule.register(options.jwt)
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.register(options.jwt),
       ],
-      providers: [
-        jwtStrategyProvider,
-        JwtAuthGuardClass
-      ],
-      exports: [
-        jwtStrategyProvider
-      ]
+      providers: [jwtStrategyProvider, JwtAuthGuardClass],
+      exports: [jwtStrategyProvider],
     };
-
   }
 }

@@ -7,3 +7,10 @@ export const AuthPrinciple = createParamDecorator(
     return request.user;
   },
 );
+
+export const Authed = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext): boolean => {
+    const request = ctx.switchToHttp().getRequest();
+    return !!request.user;
+  },
+);

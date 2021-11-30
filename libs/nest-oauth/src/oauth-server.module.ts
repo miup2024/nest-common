@@ -1,6 +1,11 @@
 import { DynamicModule, Global, Module, ValueProvider } from '@nestjs/common';
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common/interfaces';
-import { OauthServer, JwtStore, OauthStoreInterface, TokenStoreInterface } from '.';
+import {
+  OauthServer,
+  JwtStore,
+  OauthStoreInterface,
+  TokenStoreInterface,
+} from '.';
 import * as jwt from 'jsonwebtoken';
 import { OauthStrategy } from './strategy/oauth.strategy';
 import { PassportModule } from '@nestjs/passport';
@@ -8,7 +13,6 @@ import { OauthTokenGuardClass } from './guard/token.guard';
 
 export const OAUTH_SERVER_MODULE_OPTIONS = 'OAUTH_SERVER_MODULE_OPTIONS';
 export const OAUTH_MODULE_TOKEN_STORE = 'OAUTH_MODULE_TOKEN_STORE';
-
 
 export interface SignJwtOptions {
   secretOrPrivateKey: jwt.Secret;
@@ -19,14 +23,13 @@ export interface SignJwtOptions {
   refreshTokenExpiresIn?: number | string;
 }
 
-
 export interface OauthServerModuleOptions {
-  oauthStore: OauthStoreInterface,
-  jwt: SignJwtOptions
+  oauthStore: OauthStoreInterface;
+  jwt: SignJwtOptions;
 }
 
-
-export interface OauthServerModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+export interface OauthServerModuleAsyncOptions
+  extends Pick<ModuleMetadata, 'imports'> {
   useFactory?: (
     ...args: any[]
   ) => Promise<OauthServerModuleOptions> | OauthServerModuleOptions;
@@ -36,8 +39,9 @@ export interface OauthServerModuleAsyncOptions extends Pick<ModuleMetadata, 'imp
 @Global()
 @Module({})
 export class OauthServerModule {
-  public static registerAsync(options: OauthServerModuleAsyncOptions): DynamicModule {
-
+  public static registerAsync(
+    options: OauthServerModuleAsyncOptions,
+  ): DynamicModule {
     const configProvider: FactoryProvider = {
       provide: OAUTH_SERVER_MODULE_OPTIONS,
       useFactory: options.useFactory,
@@ -46,7 +50,10 @@ export class OauthServerModule {
 
     const oauthServiceProvider: FactoryProvider = {
       provide: OauthServer,
-      useFactory: (option: OauthServerModuleOptions, tokenStore: TokenStoreInterface) => {
+      useFactory: (
+        option: OauthServerModuleOptions,
+        tokenStore: TokenStoreInterface,
+      ) => {
         return new OauthServer(option.oauthStore, tokenStore);
       },
       inject: [OAUTH_SERVER_MODULE_OPTIONS, OAUTH_MODULE_TOKEN_STORE],
@@ -70,10 +77,7 @@ export class OauthServerModule {
 
     return {
       module: OauthServerModule,
-      imports: [
-        PassportModule.register({}),
-        ...(options.imports || []),
-      ],
+      imports: [PassportModule.register({}), ...(options.imports || [])],
       providers: [
         configProvider,
         oauthServiceProvider,
@@ -81,22 +85,21 @@ export class OauthServerModule {
         tokenStrategyProvider,
         OauthTokenGuardClass,
       ],
-      exports: [
-        oauthServiceProvider,
-      ],
+      exports: [oauthServiceProvider],
     };
   }
 
-
   public static register(options: OauthServerModuleOptions) {
-
     const configProvider: ValueProvider = {
       provide: OAUTH_SERVER_MODULE_OPTIONS,
       useValue: options,
     };
     const oauthServiceProvider: FactoryProvider = {
       provide: OauthServer,
-      useFactory: (option: OauthServerModuleOptions, tokenStore: TokenStoreInterface) => {
+      useFactory: (
+        option: OauthServerModuleOptions,
+        tokenStore: TokenStoreInterface,
+      ) => {
         return new OauthServer(option.oauthStore, tokenStore);
       },
       inject: [OAUTH_SERVER_MODULE_OPTIONS, OAUTH_MODULE_TOKEN_STORE],
@@ -120,9 +123,7 @@ export class OauthServerModule {
 
     return {
       module: OauthServerModule,
-      imports: [
-        PassportModule.register({}),
-      ],
+      imports: [PassportModule.register({})],
       providers: [
         configProvider,
         oauthServiceProvider,
@@ -130,10 +131,7 @@ export class OauthServerModule {
         tokenStrategyProvider,
         OauthTokenGuardClass,
       ],
-      exports: [
-        oauthServiceProvider,
-      ],
+      exports: [oauthServiceProvider],
     };
   }
-
 }

@@ -5,7 +5,6 @@ import { IDotenvExtendedOptions } from 'dotenv-extended';
 import { Logger } from '@nestjs/common';
 
 export class ConfigService {
-
   private logger = new Logger(ConfigService.name);
 
   private readonly envConfig: { [key: string]: string };
@@ -22,7 +21,10 @@ export class ConfigService {
     const dotenvOp: IDotenvExtendedOptions = {
       encoding: option.encoding,
       silent: true,
-      defaults: path.join(option.path, `${option.basename}.${option.default}.env`),
+      defaults: path.join(
+        option.path,
+        `${option.basename}.${option.default}.env`,
+      ),
       errorOnMissing: false,
       errorOnExtra: false,
       includeProcessEnv: false,
@@ -30,7 +32,10 @@ export class ConfigService {
       overrideProcessEnv: false,
     };
     if (option.env) {
-      dotenvOp.path = path.join(option.path, `${option.basename}.${option.env}.env`);
+      dotenvOp.path = path.join(
+        option.path,
+        `${option.basename}.${option.env}.env`,
+      );
     }
     this.envConfig = dotenv.load(dotenvOp);
   }
@@ -66,4 +71,3 @@ export class ConfigService {
     }
   }
 }
-

@@ -1,6 +1,5 @@
 import { HslTransactional, IsolationLevel, Propagation } from './cmob';
 
-
 export * from './transaction.module';
 export * from './cmob';
 
@@ -13,8 +12,3 @@ export interface TransactionalOptions {
 export function Transactional(options?: TransactionalOptions): MethodDecorator {
   return HslTransactional(options);
 }
-
-
-
-
-

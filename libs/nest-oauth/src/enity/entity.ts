@@ -1,7 +1,7 @@
 export interface OauthClient {
   clientId: string;
 
-  [propertyName: string]: any
+  [propertyName: string]: any;
 }
 
 export interface OauthToken {
@@ -9,15 +9,13 @@ export interface OauthToken {
   refresh_token: string;
   expires_in: any;
 
-  [propertyName: string]: any
-
+  [propertyName: string]: any;
 }
 
 export interface OauthUser {
   userId: string;
 
-  [propertyName: string]: any
-
+  [propertyName: string]: any;
 }
 
 export interface AuthorizationCode {
@@ -26,6 +24,5 @@ export interface AuthorizationCode {
   code: string;
   state?: string;
 
-  [propertyName: string]: any
-
+  [propertyName: string]: any;
 }

@@ -5,7 +5,6 @@ export * from './enity/data';
 export * from './enity/entity';
 export * from './enity/principle';
 
-
 export * from './guard/auth.guard';
 export * from './guard/token.guard';
 
@@ -18,7 +17,6 @@ export * from './service/jwt.store';
 export * from './pipe/principle.pipe';
 
 export * from './util/from-request.util';
-
 
 export * from './oauth-server.module';
 export * from './oauth-client.module';

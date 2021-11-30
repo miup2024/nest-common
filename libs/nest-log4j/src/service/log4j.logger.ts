@@ -77,24 +77,33 @@ export class Log4j implements LoggerService {
   }
 
   warn(message: any, context?: string): any {
-    this.logInstanceWarning.warn(this.printMessage(message, clc.yellow, context));
-    this.logInstanceVerbose.warn(this.printMessage(message, clc.yellow, context));
+    this.logInstanceWarning.warn(
+      this.printMessage(message, clc.yellow, context),
+    );
+    this.logInstanceVerbose.warn(
+      this.printMessage(message, clc.yellow, context),
+    );
   }
 
   log(message: any, context?: string): any {
     this.logInstanceInfo.info(this.printMessage(message, clc.green, context));
-    this.logInstanceVerbose.info(this.printMessage(message, clc.green, context));
+    this.logInstanceVerbose.info(
+      this.printMessage(message, clc.green, context),
+    );
   }
 
   debug(message: any, context?: string) {
-    this.logInstanceDebug.debug(this.printMessage(message, clc.magentaBright, context));
-    this.logInstanceVerbose.debug(this.printMessage(message, clc.magentaBright, context));
+    this.logInstanceDebug.debug(
+      this.printMessage(message, clc.magentaBright, context),
+    );
+    this.logInstanceVerbose.debug(
+      this.printMessage(message, clc.magentaBright, context),
+    );
   }
 
   verbose(message: any, context?: string): any {
     this.debug(message, context);
   }
-
 
   private printMessage(
     message: any,
@@ -108,8 +117,7 @@ export class Log4j implements LoggerService {
     const pidMessage = color(`${process.pid}   - `);
     const contextMessage = context ? yellow(`[${context}] `) : '';
     return `${pidMessage}  ${contextMessage}${output}`;
-  };
-
+  }
 
   private overwriteContextLogger() {
     Logger.overrideLogger(this);

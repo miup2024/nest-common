@@ -1,6 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
-
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
@@ -8,7 +7,6 @@ import {
 
 @Module({})
 export class TransactionModule {
-
   public static register(): DynamicModule {
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
@@ -19,4 +17,3 @@ export class TransactionModule {
     };
   }
 }
-

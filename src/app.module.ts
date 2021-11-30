@@ -4,7 +4,12 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@miup/nest-config';
 import { Log4jModule } from '@miup/nest-log4j';
 import { OauthStoreService } from './oauth/oauth.store';
-import { OauthClientModule, OauthServerModule, OauthServerModuleOptions, OauthStoreInterface } from '@miup/nest-oauth';
+import {
+  OauthClientModule,
+  OauthServerModule,
+  OauthServerModuleOptions,
+  OauthStoreInterface,
+} from '@miup/nest-oauth';
 import { LocalOauthModule } from './oauth/local-oauth.module';
 import { AliCloudSmsModule } from '@miup/nest-ali-sms';
 import { RedisModule } from '@miup/nest-redis';
@@ -70,5 +75,4 @@ import { SubModule } from './sub-module/sub.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

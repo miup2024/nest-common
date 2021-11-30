@@ -1,4 +1,8 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
@@ -11,13 +15,13 @@ export class OauthTokenGuardClass extends AuthGuard('local') {
     this.type = type;
   }
 
-
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
     req.oauthType = this.type;
     return super.canActivate(context);
   }
-
 
   handleRequest(err, tokenInfo, info) {
     if (err || !tokenInfo) {
@@ -27,6 +31,6 @@ export class OauthTokenGuardClass extends AuthGuard('local') {
   }
 }
 
-export function JwtTokenGuard(type?: 'token' | 'code') {
+export function JwtTokenGuard(type: 'token' | 'code') {
   return new OauthTokenGuardClass(type);
 }

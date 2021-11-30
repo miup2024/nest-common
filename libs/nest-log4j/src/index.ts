@@ -1,4 +1,10 @@
-import { DynamicModule, FactoryProvider, Global, Module, ValueProvider } from '@nestjs/common';
+import {
+  DynamicModule,
+  FactoryProvider,
+  Global,
+  Module,
+  ValueProvider,
+} from '@nestjs/common';
 import { ModuleMetadata } from '@nestjs/common/interfaces';
 import { Log4j } from './service/log4j.logger';
 import * as os from 'os';
@@ -24,11 +30,8 @@ const defaultLog4jOptions = {
   level: 'debug',
 };
 
-
 export interface Log4jAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
-  useFactory: (
-    ...args: any[]
-  ) => Promise<Log4jOptions> | Log4jOptions;
+  useFactory: (...args: any[]) => Promise<Log4jOptions> | Log4jOptions;
   inject?: any[];
 }
 

@@ -1,30 +1,67 @@
-import { AuthorizationCode, CodeData, OauthClient, OauthToken, OauthType, OauthUser, TokenData } from '..';
-
+import {
+  AuthorizationCode,
+  CodeData,
+  OauthClient,
+  OauthToken,
+  OauthType,
+  OauthUser,
+  TokenData,
+} from '..';
 
 export interface TokenStoreInterface {
-  buildAndStoreToken(client: OauthClient, user: OauthUser, scopes: string, allParams: any): Promise<OauthToken>;
+  buildAndStoreToken(
+    client: OauthClient,
+    user: OauthUser,
+    scopes: string,
+    allParams: any,
+  ): Promise<OauthToken>;
 
-  getRefreshTokenData(refresh_token: string, allParams: any): Promise<TokenData>;
+  getRefreshTokenData(
+    refresh_token: string,
+    allParams: any,
+  ): Promise<TokenData>;
 
-  buildAndSaveCode(user: OauthUser, client: OauthClient, scope: string, allParams: any): Promise<string>;
+  buildAndSaveCode(
+    user: OauthUser,
+    client: OauthClient,
+    scope: string,
+    allParams: any,
+  ): Promise<string>;
 
   getCodeData(code: string, allParams: any): Promise<CodeData>;
 }
 
 export interface OauthStoreInterface {
-  getUser(username: string, password: string, allParams: any): Promise<OauthUser>;
+  getUser(
+    username: string,
+    password: string,
+    allParams: any,
+  ): Promise<OauthUser>;
 
-  getClient(client_id: string, scope: string, allParams?: any): Promise<OauthClient>;
+  getClient(
+    client_id: string,
+    scope: string,
+    allParams?: any,
+  ): Promise<OauthClient>;
 
-  getClientAndValidate(client_id: string, client_secret: string, scope: string, allParams?: any): Promise<OauthClient>;
+  getClientAndValidate(
+    client_id: string,
+    client_secret: string,
+    scope: string,
+    allParams?: any,
+  ): Promise<OauthClient>;
 }
 
-
 export interface OauthInterface {
-  authorizationCode(params: AuthorizationCodeParams, allParams?: any): Promise<AuthorizationCode>;
+  authorizationCode(
+    params: AuthorizationCodeParams,
+    allParams?: any,
+  ): Promise<AuthorizationCode>;
 
-  token(params: OauthCodeTokenParams | PasswordTokenParams | RefreshTokenParams, allParams?: any): Promise<OauthToken>;
-
+  token(
+    params: OauthCodeTokenParams | PasswordTokenParams | RefreshTokenParams,
+    allParams?: any,
+  ): Promise<OauthToken>;
 }
 
 export interface AuthorizationCodeParams {

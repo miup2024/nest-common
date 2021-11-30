@@ -5,10 +5,9 @@ import { Strategy } from 'passport';
 
 @Injectable()
 export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
-  constructor(private  oauthServer: OauthServer) {
+  constructor(private oauthServer: OauthServer) {
     super();
   }
-
 
   authenticate(req: any, options?: any): any {
     if (req.oauthType === 'code') {
@@ -42,13 +41,15 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
       state,
       redirect_uri,
     };
-    this.oauthServer.token(params, req.body).then((res) => {
-      this.success(res, res);
-    }).catch((e) => {
-      this.error(e);
-    });
+    this.oauthServer
+      .token(params, req.body)
+      .then(res => {
+        this.success(res, res);
+      })
+      .catch(e => {
+        this.error(e);
+      });
   }
-
 
   authenticateCode(req: any, options?: any): any {
     options.property = 'code';
@@ -56,15 +57,19 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
       client_id: FromRequestUtil.lookup(req.body, 'client_id'),
       username: FromRequestUtil.lookup(req.body, 'username'),
       password: FromRequestUtil.lookup(req.body, 'password'),
-      response_type: FromRequestUtil.lookup(req.body, 'response_type') || 'code',
+      response_type:
+        FromRequestUtil.lookup(req.body, 'response_type') || 'code',
       redirect_uri: FromRequestUtil.lookup(req.body, 'redirect_uri'),
       scope: FromRequestUtil.lookup(req.body, 'scope'),
       state: FromRequestUtil.lookup(req.body, 'state'),
     };
-    this.oauthServer.authorizationCode(params, req.body).then((res) => {
-      this.success(res, res);
-    }).catch((e) => {
-      this.error(e);
-    });
+    this.oauthServer
+      .authorizationCode(params, req.body)
+      .then(res => {
+        this.success(res, res);
+      })
+      .catch(e => {
+        this.error(e);
+      });
   }
 }
