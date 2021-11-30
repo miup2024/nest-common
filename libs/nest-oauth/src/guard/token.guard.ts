@@ -1,12 +1,7 @@
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 
-@Injectable()
 export class OauthTokenGuardClass extends AuthGuard('local') {
   type: 'token' | 'code' = null;
 

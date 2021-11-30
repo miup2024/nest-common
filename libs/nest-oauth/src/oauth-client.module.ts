@@ -60,7 +60,7 @@ export class OauthClientModule {
           inject: [OAUTH_CLIENT_MODULE_OPTIONS],
         } as JwtModuleAsyncOptions),
       ],
-      providers: [jwtStrategyProvider, configProvider, JwtAuthGuardClass],
+      providers: [jwtStrategyProvider, configProvider],
       exports: [jwtStrategyProvider, configProvider],
     };
   }
@@ -79,7 +79,7 @@ export class OauthClientModule {
         PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.register(options.jwt),
       ],
-      providers: [jwtStrategyProvider, JwtAuthGuardClass],
+      providers: [jwtStrategyProvider],
       exports: [jwtStrategyProvider],
     };
   }

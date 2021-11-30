@@ -83,7 +83,6 @@ export class OauthServerModule {
         oauthServiceProvider,
         tokenStoreProvider,
         tokenStrategyProvider,
-        OauthTokenGuardClass,
       ],
       exports: [oauthServiceProvider],
     };
@@ -129,7 +128,6 @@ export class OauthServerModule {
         oauthServiceProvider,
         tokenStoreProvider,
         tokenStrategyProvider,
-        OauthTokenGuardClass,
       ],
       exports: [oauthServiceProvider],
     };

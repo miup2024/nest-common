@@ -1,8 +1,7 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Principle } from '../index';
 
-@Injectable()
 export class JwtAuthGuardClass extends AuthGuard('jwt') {
   private readonly scopes: Array<string>;
   private readonly noValidate: boolean = true;
