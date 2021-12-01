@@ -3,14 +3,13 @@ import {
   OauthClient,
   OauthToken,
   OauthUser,
+  Principle,
   SignJwtOptions,
   TokenData,
   TokenStoreInterface,
 } from '..';
 import * as jwt from 'jsonwebtoken';
 import * as ms from 'ms';
-import { Principle } from '..';
-import { isNumeric } from 'rxjs/internal-compatibility';
 
 const defaultTokenOptionExpiresIn = '1h';
 
@@ -112,13 +111,14 @@ export class JwtStore implements TokenStoreInterface {
           this.optionsRefresh.signOptions,
         );
         let expires_in: any = this.optionsToken.signOptions.expiresIn;
-        if (!isNumeric(expires_in)) {
+        if (isNaN(expires_in)) {
           expires_in = ms(expires_in);
         }
         resolve({
           access_token: access_token,
           refresh_token: refresh_token,
           expires_in: expires_in,
+          token_type: 'Bearer',
         });
       } catch (e) {
         reject(e);
@@ -132,7 +132,7 @@ export class JwtStore implements TokenStoreInterface {
         const data: CodeData = jwt.verify(
           code,
           this.optionsCode.publicKey ||
-            (this.optionsCode.secretOrPrivateKey as any),
+          (this.optionsCode.secretOrPrivateKey as any),
           this.vOptions,
         ) as CodeData;
         resolve(data);
@@ -152,7 +152,7 @@ export class JwtStore implements TokenStoreInterface {
         const data: TokenData = jwt.verify(
           refresh_token,
           this.optionsRefresh.publicKey ||
-            (this.optionsRefresh.secretOrPrivateKey as any),
+          (this.optionsRefresh.secretOrPrivateKey as any),
           this.vOptions,
         ) as TokenData;
         resolve(data);

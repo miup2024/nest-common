@@ -8,6 +8,7 @@ export interface OauthToken {
   access_token: string;
   refresh_token: string;
   expires_in: any;
+  token_type: string;
 
   [propertyName: string]: any;
 }
