@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-oauth",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "description": "",
     "private": false,
     "main": "dist/index.js",
@@ -22,13 +22,14 @@
         "passport-jwt": "*",
         "passport-local": "*"
     },
-    "devDependencies": {
-        "@types/passport-jwt": "*",
-        "@types/passport-local": "*",
+    "peerDependencies": {
         "@nestjs/common": "*",
         "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
+    },
+    "devDependencies": {
+        "@types/passport-jwt": "*",
+        "@types/passport-local": "*"
     }
 }

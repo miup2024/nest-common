@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-log4j",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "description": "",
     "main": "dist/index.js",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-log4j",
@@ -17,7 +17,6 @@
         "@nestjs/common": "*",
         "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
     },
     "dependencies": {

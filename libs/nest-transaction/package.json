@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-transaction",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-transaction",
     "repository": {
         "type": "git",
@@ -17,11 +17,10 @@
     "dependencies": {
         "typeorm-transactional-cls-hooked": "*"
     },
-    "devDependencies": {
+    "peerDependencies": {
         "@nestjs/common": "*",
         "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
     },
     "optionalDependencies": {

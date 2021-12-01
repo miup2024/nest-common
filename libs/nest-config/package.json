@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-config",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "description": "",
     "keywords": [
         "miup",
@@ -24,11 +24,10 @@
         "dotenv": "^8.2.0",
         "dotenv-extended": "^2.7.1"
     },
-    "devDependencies": {
-        "@nestjs/common": "^7.0.1",
-        "@nestjs/core": "^7.0.1",
+    "peerDependencies": {
+        "@nestjs/common": "*",
+        "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
     }
 }

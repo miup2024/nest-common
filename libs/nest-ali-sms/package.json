@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-ali-sms",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "keywords": [
         "ali",
         "sms",
@@ -25,11 +25,11 @@
     "dependencies": {
         "@alicloud/sms-sdk": "*"
     },
-    "devDependencies": {
-        "@nestjs/common": "^7.0.1",
-        "@nestjs/core": "^7.0.1",
+    "peerDependencies": {
+        "@nestjs/common": "*",
+        "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
-    }
+    },
+    "devDependencies": {}
 }

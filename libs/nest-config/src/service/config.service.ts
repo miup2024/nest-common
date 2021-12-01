@@ -40,17 +40,13 @@ export class ConfigService {
     this.envConfig = dotenv.load(dotenvOp);
   }
 
-  get<T = any>(key: string, defaultValue?: T): T | undefined {
-    const v = this.envConfig[key];
+  getString(key: string, defaultValue?: string): string {
+    const v: string = this.envConfig[key];
     if (v) {
-      return (v as unknown) as T;
+      return v;
     } else {
       return defaultValue;
     }
-  }
-
-  getString(key: string, defaultValue?: string): string {
-    return this.get<string>(key, defaultValue);
   }
 
   getNumber(key: string, defaultValue?: number): number {
@@ -69,5 +65,13 @@ export class ConfigService {
     } else {
       return defaultValue;
     }
+  }
+
+  getStringArray(key: string, defaultValue?: string[]): string[] {
+    const v: string = this.envConfig[key];
+    if (!v) {
+      return defaultValue || [];
+    }
+    return v.split(',');
   }
 }

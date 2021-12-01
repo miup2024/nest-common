@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-redis",
-    "version": "2.2.4",
+    "version": "2.2.6",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-redis",
     "repository": {
         "type": "git",
@@ -17,13 +17,10 @@
     "dependencies": {
         "ioredis": "*"
     },
-    "devDependencies": {
-        "@types/passport-jwt": "*",
-        "@types/passport-local": "*",
+    "peerDependencies": {
         "@nestjs/common": "*",
         "@nestjs/core": "*",
         "reflect-metadata": "*",
-        "rimraf": "*",
         "rxjs": "*"
     }
 }
