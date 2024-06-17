@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-oauth",
-    "version": "2.2.7",
+    "version": "2.2.8",
     "description": "",
     "private": false,
     "main": "dist/index.js",
@@ -8,9 +8,6 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-oauth"
-    },
-    "scripts": {
-        "build": "tsc "
     },
     "author": "",
     "license": "ISC",
@@ -23,13 +20,9 @@
         "passport-local": "*"
     },
     "peerDependencies": {
-        "@nestjs/common": "*",
-        "@nestjs/core": "*",
-        "reflect-metadata": "*",
-        "rxjs": "*"
-    },
-    "devDependencies": {
-        "@types/passport-jwt": "*",
-        "@types/passport-local": "*"
+        "@nestjs/common": ">=7.0.0",
+        "@nestjs/core": ">=7.0.0",
+        "reflect-metadata": ">=0.0.2",
+        "rxjs": ">=6.0.0"
     }
 }

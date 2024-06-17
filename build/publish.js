@@ -2,21 +2,11 @@ const fs = require('fs-extra');
 const Path = require('path');
 const childProcess = require('child_process');
 
-async function buildProject(dir, version, projectPath) {
+async function cmdRun(cmd, basePath) {
+  console.log(cmd);
   return new Promise(resolve => {
-    const projectBasePath = Path.join(projectPath, dir);
-    const packageJsonPath = Path.join(projectBasePath, 'package.json');
-    const pkg = fs.readJsonSync(packageJsonPath);
-    pkg.version = version;
-    fs.writeJsonSync(packageJsonPath, pkg, { spaces: 4 });
-
-    let cmd = '';
-    if (pkg.scripts.build) {
-      cmd += 'npm run build &&';
-    }
-    cmd += 'npm publish --access=public';
     const child = childProcess.exec(cmd, {
-      cwd: projectBasePath,
+      cwd: basePath,
     });
     child.stdout.addListener('data', (data) => {
       console.log(data.toString());
@@ -28,16 +18,27 @@ async function buildProject(dir, version, projectPath) {
       resolve();
     });
   });
-
 }
+
+async function buildProject(dir, version, projectPath, basePath) {
+  const projectBasePath = Path.join(projectPath, dir);
+  const packageJsonPath = Path.join(projectBasePath, 'package.json');
+  const pkg = fs.readJsonSync(packageJsonPath);
+  pkg.version = version;
+  fs.writeJsonSync(packageJsonPath, pkg, { spaces: 4 });
+  await cmdRun(`npm run build "./libs/${dir}"`, basePath);
+  await cmdRun(`npm publish --access=public`, projectBasePath);
+}
+
 
 async function build() {
   const projectPath = Path.join(__dirname, '../libs');
   const dirs = fs.readdirSync(projectPath);
+  const basePath = Path.join(__dirname, '../');
 
   const version = require('../package.json').version;
   for (const dir of dirs) {
-    await buildProject(dir, version, projectPath);
+    await buildProject(dir, version, projectPath, basePath);
     console.log('build finish ', dir);
   }
 }

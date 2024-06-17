@@ -1,4 +1,4 @@
-import { ModuleMetadata, Provider, Type } from '@nestjs/common/interfaces';
+import { ModuleMetadata } from '@nestjs/common/interfaces';
 
 export interface AliCloudSmsModuleOptions {
   default: {

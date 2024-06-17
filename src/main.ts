@@ -8,7 +8,7 @@ async function bootstrap() {
   const logger = app.get(Log4j);
   const config = app.get<ConfigService>(ConfigService);
   app.useLogger(logger);
-  await app.listen(config.get<number>('port'));
+  await app.listen(config.get('port'));
 }
 
 bootstrap();

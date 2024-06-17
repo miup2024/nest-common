@@ -40,6 +40,15 @@ export class ConfigService {
     this.envConfig = dotenv.load(dotenvOp);
   }
 
+  get(key: string, defaultValue?: any): any {
+    const v: string = this.envConfig[key];
+    if (v) {
+      return v;
+    } else {
+      return defaultValue;
+    }
+  }
+
   getString(key: string, defaultValue?: string): string {
     const v: string = this.envConfig[key];
     if (v) {

@@ -1,12 +1,12 @@
 import { RedisModuleOptions } from './redis.interface';
-import * as RedisClient from 'ioredis';
+import {Redis} from 'ioredis';
 import { Logger } from '@nestjs/common';
 
 export class RedisService {
-  private defaultLabel: symbol = Symbol('default_redis_label');
-  private clientMap: Map<symbol, RedisClient.Redis> = new Map<
+  private defaultLabel = Symbol('default_redis_label');
+  private clientMap: Map<symbol, Redis> = new Map<
     any,
-    RedisClient.Redis
+    Redis
   >();
   private logger: Logger = new Logger(RedisService.name);
 
@@ -14,11 +14,11 @@ export class RedisService {
     try {
       if (options instanceof Array) {
         for (const option of options) {
-          const client = new RedisClient(option);
+          const client = new Redis(option);
           this.clientMap.set(Symbol(`redis_label_${option.name}`), client);
         }
       } else {
-        this.clientMap.set(this.defaultLabel, new RedisClient(options));
+        this.clientMap.set(this.defaultLabel, new Redis(options));
       }
     } catch (e) {
       this.logger.error(e.message, e);
@@ -26,8 +26,8 @@ export class RedisService {
     }
   }
 
-  getClient(label?: string): RedisClient.Redis {
-    let client: RedisClient.Redis;
+  getClient(label?: string): Redis {
+    let client: Redis;
     if (!label) {
       client = this.clientMap.get(this.defaultLabel);
     } else {

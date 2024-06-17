@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-redis",
-    "version": "2.2.7",
+    "version": "2.2.8",
     "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-redis",
     "repository": {
         "type": "git",
@@ -9,18 +9,15 @@
     "description": "",
     "private": false,
     "main": "dist/index.js",
-    "scripts": {
-        "build": "tsc "
-    },
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "ioredis": "*"
+        "ioredis": ">=5.0.0"
     },
     "peerDependencies": {
-        "@nestjs/common": "*",
-        "@nestjs/core": "*",
-        "reflect-metadata": "*",
-        "rxjs": "*"
+        "@nestjs/common": ">=7.0.0",
+        "@nestjs/core": ">=7.0.0",
+        "reflect-metadata": ">=0.0.2",
+        "rxjs": ">=6.0.0"
     }
 }
