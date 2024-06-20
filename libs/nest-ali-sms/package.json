@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-ali-sms",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "keywords": [
         "ali",
         "sms",
@@ -20,7 +20,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@alicloud/sms-sdk": "*"
+        "@alicloud/sms-sdk": "^1.1.6"
     },
     "peerDependencies": {
         "@nestjs/common": ">=7.0.0",
