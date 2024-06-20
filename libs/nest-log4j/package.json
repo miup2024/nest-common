@@ -1,12 +1,12 @@
 {
     "name": "@miup/nest-log4j",
-    "version": "2.2.8",
+    "version": "3.0.0",
     "description": "",
     "main": "dist/index.js",
-    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-log4j",
+    "homepage": "https://github.com/miup2024/nest-common/tree/master/libs/nest-log4j",
     "repository": {
         "type": "git",
-        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-log4j"
+        "url": "https://github.com/miup2024/nest-common/tree/master/libs/nest-log4j"
     },
     "author": "",
     "license": "ISC",

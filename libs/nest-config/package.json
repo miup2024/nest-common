@@ -1,6 +1,6 @@
 {
     "name": "@miup/nest-config",
-    "version": "2.2.8",
+    "version": "3.0.0",
     "description": "",
     "keywords": [
         "miup",
@@ -8,10 +8,10 @@
         "nest",
         "config"
     ],
-    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config",
+    "homepage": "https://github.com/miup2024/nest-common/tree/master/libs/nest-config",
     "repository": {
         "type": "git",
-        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-config"
+        "url": "https://github.com/miup2024/nest-common/tree/master/libs/nest-config"
     },
     "private": false,
     "main": "dist/index.js",

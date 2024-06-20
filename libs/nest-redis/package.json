@@ -1,10 +1,10 @@
 {
     "name": "@miup/nest-redis",
-    "version": "2.2.8",
-    "homepage": "https://github.com/miupfun/nest-common/tree/master/libs/nest-redis",
+    "version": "3.0.0",
+    "homepage": "https://github.com/miup2024/nest-common/tree/master/libs/nest-redis",
     "repository": {
         "type": "git",
-        "url": "https://github.com/miupfun/nest-common/tree/master/libs/nest-redis"
+        "url": "https://github.com/miup2024/nest-common/tree/master/libs/nest-redis"
     },
     "description": "",
     "private": false,
