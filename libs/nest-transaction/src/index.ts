@@ -1,13 +1,10 @@
-import { HslTransactional, IsolationLevel, Propagation } from './cmob';
+import { HslTransactional } from './cmob';
+import { WrapInTransactionOptions } from 'typeorm-transactional/dist/transactions/wrap-in-transaction';
 
 export * from './transaction.module';
 export * from './cmob';
 
-export interface TransactionalOptions {
-  connectionName?: string | (() => string | undefined);
-  propagation?: Propagation;
-  isolationLevel?: IsolationLevel;
-}
+export type TransactionalOptions = WrapInTransactionOptions
 
 export function Transactional(options?: TransactionalOptions): MethodDecorator {
   return HslTransactional(options);

@@ -1,16 +1,12 @@
 import {
   Transactional as HslTransactional,
-  BaseRepository,
-  BaseTreeRepository,
   Propagation,
   IsolationLevel,
   TransactionalError,
-} from 'typeorm-transactional-cls-hooked';
+} from 'typeorm-transactional';
 
 export {
   HslTransactional,
-  BaseRepository,
-  BaseTreeRepository,
   Propagation,
   IsolationLevel,
   TransactionalError,

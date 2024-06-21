@@ -2,14 +2,12 @@ import { DynamicModule, Module } from '@nestjs/common';
 
 import {
   initializeTransactionalContext,
-  patchTypeORMRepositoryWithBaseRepository,
-} from 'typeorm-transactional-cls-hooked';
+} from 'typeorm-transactional';
 
 @Module({})
 export class TransactionModule {
-  public static register(): DynamicModule {
+  public static registerAsync(): DynamicModule {
     initializeTransactionalContext();
-    patchTypeORMRepositoryWithBaseRepository();
     return {
       module: TransactionModule,
       providers: [],

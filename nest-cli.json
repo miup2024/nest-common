@@ -2,13 +2,13 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "projects": {
-    "miup-oauth": {
+    "nest-oauth": {
       "type": "library",
-      "root": "libs/miup-oauth",
+      "root": "libs/nest-oauth",
       "entryFile": "index",
-      "sourceRoot": "libs/miup-oauth/src",
+      "sourceRoot": "libs/nest-oauth/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/miup-oauth/tsconfig.lib.json"
+        "tsConfigPath": "libs/nest-oauth/tsconfig.lib.json"
       }
     },
     "miup-config": {
