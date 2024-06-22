@@ -19,26 +19,41 @@ async function cmdRun(cmd, basePath) {
     });
   });
 }
+async function copyProjectFile(dir, version, projectPath, basePath) {
 
-async function buildProject(dir, version, projectPath, basePath) {
+}
+async function buildProject(dir, version, projectPath,buildPath, basePath) {
   const projectBasePath = Path.join(projectPath, dir);
-  const packageJsonPath = Path.join(projectBasePath, 'package.json');
+  const projectOutPath = Path.join(buildPath, dir);
+  await cmdRun(`nest build ${dir}`, basePath);
+
+  const files = ['package.json', 'README.md', '.npmignore'];
+  await fs.ensureDir(projectOutPath);
+  for (const file of files) {
+    try {
+      const srcPath = Path.join(projectBasePath, file);
+      const distPath = Path.join(projectOutPath, file);
+      await fs.copy(srcPath, distPath);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const packageJsonPath = Path.join(projectOutPath, 'package.json');
   const pkg = fs.readJsonSync(packageJsonPath);
   pkg.version = version;
   fs.writeJsonSync(packageJsonPath, pkg, { spaces: 4 });
-  await cmdRun(`npm run build "./libs/${dir}"`, basePath);
-  await cmdRun(`npm publish --access=public`, projectBasePath);
+  await cmdRun(`npm publish --access=public`, projectOutPath);
 }
-
 
 async function build() {
   const projectPath = Path.join(__dirname, '../libs');
+  const buildPath = Path.join(__dirname, '../dist/libs');
   const dirs = fs.readdirSync(projectPath);
   const basePath = Path.join(__dirname, '../');
 
   const version = require('../package.json').version;
   for (const dir of dirs) {
-    await buildProject(dir, version, projectPath, basePath);
+    await buildProject(dir, version, projectPath,buildPath, basePath);
     console.log('build finish ', dir);
   }
 }

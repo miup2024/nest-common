@@ -8,7 +8,7 @@
     },
     "description": "",
     "private": false,
-    "main": "dist/index.js",
+    "main": "index.js",
     "author": "",
     "license": "ISC",
     "dependencies": {

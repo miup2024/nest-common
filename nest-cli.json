@@ -1,6 +1,18 @@
 {
+  "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": false,
+    "webpack": false,
+    "assets": [
+      {
+        "include": "**/*.env",
+        "watchAssets": true,
+        "outDir": "./dist/src"
+      }
+    ]
+  },
   "projects": {
     "nest-oauth": {
       "type": "library",
@@ -11,13 +23,13 @@
         "tsConfigPath": "libs/nest-oauth/tsconfig.lib.json"
       }
     },
-    "miup-config": {
+    "nest-config": {
       "type": "library",
-      "root": "libs/miup-config",
+      "root": "libs/nest-config",
       "entryFile": "index",
-      "sourceRoot": "libs/miup-config/src",
+      "sourceRoot": "libs/nest-config/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/miup-config/tsconfig.lib.json"
+        "tsConfigPath": "libs/nest-config/tsconfig.lib.json"
       }
     },
     "nest-log4j": {
@@ -56,8 +68,5 @@
         "tsConfigPath": "libs/nest-transaction/tsconfig.lib.json"
       }
     }
-  },
-  "compilerOptions": {
-    "webpack": false
   }
 }

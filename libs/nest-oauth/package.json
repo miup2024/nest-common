@@ -3,7 +3,7 @@
     "version": "3.0.2",
     "description": "",
     "private": false,
-    "main": "dist/index.js",
+    "main": "index.js",
     "homepage": "https://github.com/miup2024/nest-common/tree/master/libs/nest-oauth",
     "repository": {
         "type": "git",
