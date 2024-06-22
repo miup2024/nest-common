@@ -4,7 +4,7 @@ import { JwtModule, JwtModuleAsyncOptions } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import * as jwt from 'jsonwebtoken';
-import { JwtAuthGuardClass } from './guard/auth.guard';
+import { JwtAuthGuardClassInner } from './guard/auth.guard';
 
 export const OAUTH_CLIENT_MODULE_OPTIONS = 'OAUTH_CLIENT_MODULE_OPTIONS';
 

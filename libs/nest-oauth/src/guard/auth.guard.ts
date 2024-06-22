@@ -2,11 +2,11 @@ import { UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Principle } from '../index';
 
-export class JwtAuthGuardClass extends AuthGuard('jwt') {
+export class JwtAuthGuardClassInner extends AuthGuard('jwt') {
   private readonly scopes: Array<string>;
   private readonly noValidate: boolean = true;
 
-  constructor(noValidate: boolean, ...scopes) {
+  constructor(noValidate: boolean, ...scopes: string[]) {
     super();
     this.scopes = scopes.sort();
     this.noValidate = noValidate;
@@ -43,10 +43,12 @@ export class JwtAuthGuardClass extends AuthGuard('jwt') {
   }
 }
 
-export function JwtOAuthGuard(...scopes) {
-  return new JwtAuthGuardClass(false, ...scopes);
+export function JwtOAuthGuard(...scopes: string[]) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  return new JwtAuthGuardClassInner(false, ...scopes);
 }
 
 export function JwtOAuthUser() {
-  return new JwtAuthGuardClass(true);
+  return new JwtAuthGuardClassInner(true);
 }
