@@ -67,6 +67,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/nest-transaction/tsconfig.lib.json"
       }
+    },
+    "nest-snow-flake": {
+      "type": "library",
+      "root": "libs/nest-snow-flake",
+      "entryFile": "index",
+      "sourceRoot": "libs/nest-snow-flake/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/nest-snow-flake/tsconfig.lib.json"
+      }
     }
   }
 }

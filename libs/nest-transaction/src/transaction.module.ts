@@ -44,7 +44,7 @@ export class TransactionModule implements OnApplicationBootstrap {
 
   public onApplicationBootstrap() {
     try {
-      this.logger.debug('TransactionModule onApplicationBootstrap');
+      this.logger.log('TransactionModule onApplicationBootstrap');
       const conf: TransactionModuleConfig = this.moduleRef.get(TRANSACTION_CONFIG_NAME, { strict: false }) || {};
 
       initializeTransactionalContext({
@@ -52,13 +52,13 @@ export class TransactionModule implements OnApplicationBootstrap {
         storageDriver: (conf.storageDriver || 'AUTO') as any,
       });
       if (!conf || !conf.dataSources || conf.dataSources.length <= 0) {
-        this.logger.debug('register dataSources is empty');
+        this.logger.log('register datasource list is empty, register default datasource');
         this.moduleRef.get(DataSource, { strict: false });
         addTransactionalDataSource(this.moduleRef.get(DataSource, { strict: false }));
         return;
       }
       for (const dataSourceName of conf.dataSources) {
-        this.logger.debug(`register dataSources: ${dataSourceName}`);
+        this.logger.log(`register datasource: ${dataSourceName}`);
         const dataSourceToken = getDataSourceToken(dataSourceName);
         const dataSource = this.moduleRef.get(dataSourceToken, { strict: false });
         addTransactionalDataSource({

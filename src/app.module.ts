@@ -14,6 +14,7 @@ import { LocalOauthModule } from './oauth/local-oauth.module';
 import { AliCloudSmsModule } from '@miup/nest-ali-sms';
 import { RedisModule } from '@miup/nest-redis';
 import { SubModule } from './sub-module/sub.module';
+import { SnowFlakeConfig, SnowFlakeModule } from '@miup/nest-snow-flake';
 
 @Module({
   imports: [
@@ -69,6 +70,10 @@ import { SubModule } from './sub-module/sub.module';
         };
       },
       inject: [ConfigService],
+    }),
+    SnowFlakeModule.register({
+      datacenterId: 1,
+      machineId: 1,
     }),
     SubModule,
   ],

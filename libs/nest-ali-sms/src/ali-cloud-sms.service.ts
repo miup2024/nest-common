@@ -10,7 +10,7 @@ export class AliCloudSmsService {
 
   async send(
     tempcode: string,
-    tempParams: Object,
+    tempParams: any,
     mobile: string | Array<string>,
     signName?: string,
   ): Promise<void> {
