@@ -1,6 +1,5 @@
 import { FactoryProvider, Global, Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
-import { createClassDecorator } from '@nestjs/swagger/dist/decorators/helpers';
 import { TransactionModule } from '@miup/nest-transaction';
 import { TypeOrmLogger } from './logger';
 import { DataSource } from 'typeorm';
@@ -10,7 +9,11 @@ import { CONFIG_PROVIDER_NAME, TypeOrmPlusModuleAsyncOptions, TypeOrmPlusModuleO
 const metakey = 'entity_type_name';
 
 export function TypeormRepository(type: any): ClassDecorator {
-  return createClassDecorator(metakey, [type]);
+  // return createClassDecorator(metakey, [type]);
+  return (target) => {
+    Reflect.defineMetadata(metakey, [type], target);
+    return target;
+  }
 }
 
 

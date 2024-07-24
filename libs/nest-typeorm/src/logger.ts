@@ -1,7 +1,7 @@
 import { QueryRunner } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { format, SqlLanguage } from 'sql-formatter';
-import { TypeOrmPlusModuleOptions } from '@miup/nest-typeorm-plus/const';
+import { TypeOrmPlusModuleOptions } from './const';
 
 export class TypeOrmLogger {
   private _log = new Logger(TypeOrmLogger.name);

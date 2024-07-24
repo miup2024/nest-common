@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { OauthServer, FromRequestUtil, AuthorizationCodeParams } from '..';
+import { OauthServer, FromRequestUtil, AuthorizationCodeParams, AuthorizationCode, OauthToken } from '..';
 import { Strategy } from 'passport';
 
 @Injectable()
@@ -9,14 +9,14 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
     super();
   }
 
-  authenticate(req: any, options?: any): any {
+  async authenticate(req: any, options?: any): Promise<any> {
     if (req.oauthType === 'code') {
       return this.authenticateCode(req, options);
     }
     return this.authenticateToken(req, options);
   }
 
-  authenticateToken(req: any, options?: any): any {
+  async authenticateToken(req: any, options?: any): Promise<OauthToken> {
     options.property = 'token';
     const grant_type = FromRequestUtil.lookup(req.body, 'grant_type');
     const client_id = FromRequestUtil.lookup(req.body, 'client_id');
@@ -40,17 +40,10 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
       state,
       redirect_uri,
     };
-    this.oauthServer
-      .token(params, req.body)
-      .then(res => {
-        this.success(res, res);
-      })
-      .catch(e => {
-        this.error(e);
-      });
+    return this.oauthServer.token(params, req.body);
   }
 
-  authenticateCode(req: any, options?: any): any {
+  async authenticateCode(req: any, options?: any): Promise<AuthorizationCode> {
     options.property = 'code';
     const params: AuthorizationCodeParams = {
       client_id: FromRequestUtil.lookup(req.body, 'client_id'),
@@ -62,13 +55,6 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
       scope: FromRequestUtil.lookup(req.body, 'scope'),
       state: FromRequestUtil.lookup(req.body, 'state'),
     };
-    this.oauthServer
-      .authorizationCode(params, req.body)
-      .then(res => {
-        this.success(res, res);
-      })
-      .catch(e => {
-        this.error(e);
-      });
+    return this.oauthServer.authorizationCode(params, req.body);
   }
 }
