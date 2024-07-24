@@ -95,7 +95,7 @@ export class OauthServer implements OauthInterface {
         );
         break;
       default:
-        throw new BadRequestException('grant_type not support');
+        throw new BadRequestException(`grant_type [${params.grant_type}] not support`);
         break;
     }
   }

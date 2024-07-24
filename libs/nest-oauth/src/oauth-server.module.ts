@@ -1,15 +1,9 @@
 import { DynamicModule, Global, Module, ValueProvider } from '@nestjs/common';
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common/interfaces';
-import {
-  OauthServer,
-  JwtStore,
-  OauthStoreInterface,
-  TokenStoreInterface,
-} from '.';
+import { JwtStore, OauthServer, OauthStoreInterface, TokenStoreInterface } from '.';
 import * as jwt from 'jsonwebtoken';
 import { OauthStrategy } from './strategy/oauth.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { OauthTokenGuardClass } from './guard/token.guard';
 
 export const OAUTH_SERVER_MODULE_OPTIONS = 'OAUTH_SERVER_MODULE_OPTIONS';
 export const OAUTH_MODULE_TOKEN_STORE = 'OAUTH_MODULE_TOKEN_STORE';
@@ -24,7 +18,8 @@ export interface SignJwtOptions {
 }
 
 export interface OauthServerModuleOptions {
-  oauthStore: OauthStoreInterface;
+  oauthStore?: OauthStoreInterface;
+  tokenStore?: TokenStoreInterface;
   jwt: SignJwtOptions;
 }
 
@@ -88,48 +83,48 @@ export class OauthServerModule {
     };
   }
 
-  public static register(options: OauthServerModuleOptions) {
-    const configProvider: ValueProvider = {
-      provide: OAUTH_SERVER_MODULE_OPTIONS,
-      useValue: options,
-    };
-    const oauthServiceProvider: FactoryProvider = {
-      provide: OauthServer,
-      useFactory: (
-        option: OauthServerModuleOptions,
-        tokenStore: TokenStoreInterface,
-      ) => {
-        return new OauthServer(option.oauthStore, tokenStore);
-      },
-      inject: [OAUTH_SERVER_MODULE_OPTIONS, OAUTH_MODULE_TOKEN_STORE],
-    };
-
-    const tokenStoreProvider: FactoryProvider = {
-      provide: OAUTH_MODULE_TOKEN_STORE,
-      useFactory: (options: OauthServerModuleOptions) => {
-        return new JwtStore(options.jwt);
-      },
-      inject: [OAUTH_SERVER_MODULE_OPTIONS],
-    };
-
-    const tokenStrategyProvider: FactoryProvider = {
-      provide: OauthStrategy,
-      useFactory: (oauthServer: OauthServer) => {
-        return new OauthStrategy(oauthServer);
-      },
-      inject: [OauthServer],
-    };
-
-    return {
-      module: OauthServerModule,
-      imports: [PassportModule.register({})],
-      providers: [
-        configProvider,
-        oauthServiceProvider,
-        tokenStoreProvider,
-        tokenStrategyProvider,
-      ],
-      exports: [oauthServiceProvider],
-    };
-  }
+  // public static register(options: OauthServerModuleOptions) {
+  //   const configProvider: ValueProvider = {
+  //     provide: OAUTH_SERVER_MODULE_OPTIONS,
+  //     useValue: options,
+  //   };
+  //   const oauthServiceProvider: FactoryProvider = {
+  //     provide: OauthServer,
+  //     useFactory: (
+  //       option: OauthServerModuleOptions,
+  //       tokenStore: TokenStoreInterface,
+  //     ) => {
+  //       return new OauthServer(option.oauthStore, option.tokenStore || tokenStore);
+  //     },
+  //     inject: [OAUTH_SERVER_MODULE_OPTIONS, OAUTH_MODULE_TOKEN_STORE],
+  //   };
+  //
+  //   const tokenStoreProvider: FactoryProvider = {
+  //     provide: OAUTH_MODULE_TOKEN_STORE,
+  //     useFactory: (options: OauthServerModuleOptions) => {
+  //       return new JwtStore(options.jwt);
+  //     },
+  //     inject: [OAUTH_SERVER_MODULE_OPTIONS],
+  //   };
+  //
+  //   const tokenStrategyProvider: FactoryProvider = {
+  //     provide: OauthStrategy,
+  //     useFactory: (oauthServer: OauthServer) => {
+  //       return new OauthStrategy(oauthServer);
+  //     },
+  //     inject: [OauthServer],
+  //   };
+  //
+  //   return {
+  //     module: OauthServerModule,
+  //     imports: [PassportModule.register({})],
+  //     providers: [
+  //       configProvider,
+  //       oauthServiceProvider,
+  //       tokenStoreProvider,
+  //       tokenStrategyProvider,
+  //     ],
+  //     exports: [oauthServiceProvider],
+  //   };
+  // }
 }

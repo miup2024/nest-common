@@ -76,6 +76,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/nest-snow-flake/tsconfig.lib.json"
       }
+    },
+    "nest-typeorm": {
+      "type": "library",
+      "root": "libs/nest-typeorm",
+      "entryFile": "index",
+      "sourceRoot": "libs/nest-typeorm/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/nest-typeorm/tsconfig.lib.json"
+      }
     }
   }
 }

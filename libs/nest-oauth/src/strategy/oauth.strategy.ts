@@ -12,9 +12,8 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'local') {
   authenticate(req: any, options?: any): any {
     if (req.oauthType === 'code') {
       return this.authenticateCode(req, options);
-    } else {
-      return this.authenticateToken(req, options);
     }
+    return this.authenticateToken(req, options);
   }
 
   authenticateToken(req: any, options?: any): any {
