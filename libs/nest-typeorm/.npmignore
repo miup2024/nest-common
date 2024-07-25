@@ -1,0 +1,12 @@
+/node_modules
+/src
+/tsconfig.lib.json
+/tsconfig.json
+
+/.idea
+/.vscode
+/package-lock.json
+/test
+*.js.map
+/dist/tsconfig.tsbuildinfo
+

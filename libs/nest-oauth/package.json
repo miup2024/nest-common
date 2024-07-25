@@ -12,12 +12,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@nestjs/jwt": "*",
-        "@nestjs/passport": "*",
-        "jsonwebtoken": "*",
-        "passport": "*",
-        "passport-jwt": "*",
-        "passport-local": "*"
+        "@nestjs/jwt": "latest",
+        "@nestjs/passport": "latest",
+        "jsonwebtoken": "latest",
+        "passport": "latest",
+        "passport-jwt": "latest",
+        "passport-local": "latest",
+        "ms": "latest"
     },
     "peerDependencies": {
         "@nestjs/common": ">=7.0.0",

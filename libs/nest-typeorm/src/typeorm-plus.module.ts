@@ -16,7 +16,6 @@ export function TypeormRepository(type: any): ClassDecorator {
   }
 }
 
-
 @Module({})
 @Global()
 export class TypeormPlusModule {

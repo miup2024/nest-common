@@ -21,44 +21,26 @@
       "@miup/nest-oauth": [
         "libs/nest-oauth/src"
       ],
-      "@miup/nest-oauth/*": [
-        "libs/nest-oauth/src/*"
-      ],
       "@miup/nest-config": [
         "libs/nest-config/src"
-      ],
-      "@miup/nest-config/*": [
-        "libs/nest-config/src/*"
       ],
       "@miup/nest-log4j": [
         "libs/nest-log4j/src"
       ],
-      "@miup/nest-log4j/*": [
-        "libs/nest-log4j/src/*"
-      ],
       "@miup/nest-ali-sms": [
         "libs/nest-ali-sms/src"
-      ],
-      "@miup/nest-ali-sms/*": [
-        "libs/nest-ali-sms/src/*"
       ],
       "@miup/nest-redis": [
         "libs/nest-redis/src"
       ],
-      "@miup/nest-redis/*": [
-        "libs/nest-redis/src/*"
-      ],
       "@miup/nest-transaction": [
         "libs/nest-transaction/src"
-      ],
-      "@miup/nest-transaction/*": [
-        "libs/nest-transaction/src/*"
       ],
       "@miup/nest-snow-flake": [
         "libs/nest-snow-flake/src"
       ],
-      "@miup/nest-snow-flake/*": [
-        "libs/nest-snow-flake/src/*"
+      "@miup/nest-typeorm": [
+        "libs/nest-typeorm/src"
       ]
     }
   },
