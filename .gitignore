@@ -10,3 +10,5 @@
 /libs/*/package-lock.json
 /libs/*/.idea
 /libs/*/.vscode
+
+pnpm-lock.yaml
