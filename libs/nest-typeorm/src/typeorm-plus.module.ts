@@ -1,92 +1,98 @@
-import { FactoryProvider, Global, Module } from '@nestjs/common';
-import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
-import { TransactionModule } from '@miup/nest-transaction';
-import { TypeOrmLogger } from './logger';
+import { FactoryProvider, Global, Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { CONFIG_PROVIDER_NAME, TypeOrmPlusModuleAsyncOptions, TypeOrmPlusModuleOptions } from './const';
+import {
+  _TypeormRepository_metakey,
+  CONFIG_PROVIDER_NAME,
+  getDataSourceProviderName,
+  TypeOrmPlusModuleAsyncOptions,
+  TypeOrmPlusModuleOptions,
+} from './const';
+import { TypeOrmLogger } from './logger';
+import { addTransactionalDataSource, initializeTransactionalContext } from 'typeorm-transactional';
+import { ModuleRef } from '@nestjs/core';
 
 
-const metakey = 'entity_type_name';
-
-export function TypeormRepository(type: any): ClassDecorator {
-  // return createClassDecorator(metakey, [type]);
-  return (target) => {
-    Reflect.defineMetadata(metakey, [type], target);
-    return target;
-  }
-}
 
 @Module({})
 @Global()
-export class TypeormPlusModule {
+export class TypeormPlusModule implements OnApplicationBootstrap {
+
+  private logger = new Logger(TypeormPlusModule.name);
+
+  constructor(private moduleRef: ModuleRef) {
+  }
+
   public static registerAsync(options: TypeOrmPlusModuleAsyncOptions) {
     const configProvider = {
       provide: CONFIG_PROVIDER_NAME,
       useFactory: options.useFactory,
-      inject: options.inject || []
+      inject: options.inject || [],
     };
 
     const entityList = options.repository.map((repository) => {
-      const entityClass: any = Reflect.getMetadata(metakey, repository);
+      const entityClass: any = Reflect.getMetadata(_TypeormRepository_metakey, repository);
       if (entityClass && entityClass.length > 0) return entityClass[0];
     });
 
-    const typeormModule = TypeOrmModule.forRootAsync({
-      imports: undefined,
-      name: options.datasource,
+    const datasourceProvider = {
+      provide: getDataSourceProviderName(options.datasource),
       useFactory: async (config: TypeOrmPlusModuleOptions) => {
-        const conf = {
-          ...config
-        };
-        conf.entities = entityList;
-        conf.logger = new TypeOrmLogger(config);
-        return conf;
+        const dataSource = new DataSource({
+          ...config,
+          synchronize: true,
+          logger: config.logger ? new TypeOrmLogger(config) : null,
+          entities: entityList,
+        });
+        return dataSource.initialize();
       },
       inject: [CONFIG_PROVIDER_NAME],
-      extraProviders: [configProvider]
-    });
-    //
-    const transactionModule = TransactionModule.registerAsync({
-      useFactory(config: TypeOrmPlusModuleOptions) {
-        const transactionConfig=Object.assign({
-          maxHookHandlers: 100,
-          storageDriver: 'AUTO'
-        }, config.transaction)
-        if (options.datasource) {
-          transactionConfig.dataSources = [options.datasource];
-        }
-        return transactionConfig;
-      },
-      inject: [CONFIG_PROVIDER_NAME],
-      imports: [TypeormPlusModule]
-    });
+    };
+
+    console.log(datasourceProvider)
 
     const repositoryProviders: Array<FactoryProvider> = [];
 
     for (const repository of options.repository) {
-      const entityClassList: any = Reflect.getMetadata(metakey, repository);
+      const entityClassList: any = Reflect.getMetadata(_TypeormRepository_metakey, repository);
       if (!entityClassList || entityClassList.length <= 0) {
         continue;
       }
       const entityClass = entityClassList[0];
-      let dataSourceToken: any = DataSource;
-      if (options.datasource) {
-        dataSourceToken = getDataSourceToken(options.datasource);
-      }
       repositoryProviders.push({
         provide: repository,
         useFactory(dataSource: DataSource) {
-          return new repository(entityClass,dataSource.manager, dataSource.manager.queryRunner);
+          return new repository(entityClass, dataSource.manager, dataSource.manager.queryRunner);
         },
-        inject: [dataSourceToken]
+        inject: [datasourceProvider.provide],
       });
     }
 
     return {
       module: TypeormPlusModule,
-      providers: [configProvider, ...repositoryProviders],
-      imports: [...(options.imports || []), typeormModule, transactionModule],
-      exports: [configProvider, transactionModule, typeormModule, ...repositoryProviders]
+      providers: [configProvider, datasourceProvider, ...repositoryProviders],
+      imports: [...(options.imports || [])],
+      exports: [configProvider, datasourceProvider, ...repositoryProviders],
     };
+  }
+
+
+  public onApplicationBootstrap() {
+    try {
+      this.logger.log('register transaction onApplicationBootstrap');
+      const conf: TypeOrmPlusModuleOptions = this.moduleRef.get(CONFIG_PROVIDER_NAME, { strict: false });
+
+      initializeTransactionalContext();
+      const dataSourceName = conf.name;
+      const dataSourceToken = getDataSourceProviderName(dataSourceName);
+      this.logger.log(`register datasource: ${dataSourceToken}`);
+      const dataSource = this.moduleRef.get(dataSourceToken, { strict: false });
+      addTransactionalDataSource({
+        dataSource,
+        name: dataSourceToken,
+      });
+    } catch (e) {
+      this.logger.error('onApplicationBootstrap error');
+      this.logger.error(e.stack);
+    }
   }
 }

@@ -1,8 +1,19 @@
 import { ModuleMetadata } from '@nestjs/common';
 import { Constructor } from '@nestjs/common/utils/merge-with-values.util';
-import { Repository } from 'typeorm';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { TransactionModuleConfig } from '@miup/nest-transaction';
+import { DataSourceOptions, Repository } from 'typeorm';
+import { WrapInTransactionOptions } from 'typeorm-transactional';
+import { Transactional as HslTransactional } from 'typeorm-transactional';
+
+
+export const _TypeormRepository_metakey = 'entity_type_name';
+
+export function TypeormRepository(type: any): ClassDecorator {
+  // return createClassDecorator(metakey, [type]);
+  return (target) => {
+    Reflect.defineMetadata(_TypeormRepository_metakey, [type], target);
+    return target;
+  };
+}
 
 export interface TypeOrmPlusModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
   datasource?: string;
@@ -12,8 +23,21 @@ export interface TypeOrmPlusModuleAsyncOptions extends Pick<ModuleMetadata, 'imp
   inject?: any[];
 }
 
-export type TypeOrmPlusModuleOptions = {
-  transaction?: TransactionModuleConfig;
-} & TypeOrmModuleOptions;
+export type TypeOrmPlusModuleOptions = {} & DataSourceOptions;
 
 export const CONFIG_PROVIDER_NAME = 'TYPEORM_PLUS_CONFIG_PROVIDER_NAME';
+
+export function getDataSourceProviderName(name?: string): string {
+  return `TYPEORM_${name || 'DEFAULT'}_DATASOURCE`;
+}
+
+export type TransactionalOptions = WrapInTransactionOptions
+
+export function TypeormTransactional(options: TransactionalOptions = {}): MethodDecorator {
+  return HslTransactional({
+    ...options,
+    name: getDataSourceProviderName(options.name as string),
+    connectionName: getDataSourceProviderName(options.connectionName),
+  });
+}
+

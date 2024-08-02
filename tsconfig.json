@@ -33,9 +33,6 @@
       "@miup/nest-redis": [
         "libs/nest-redis/src"
       ],
-      "@miup/nest-transaction": [
-        "libs/nest-transaction/src"
-      ],
       "@miup/nest-snow-flake": [
         "libs/nest-snow-flake/src"
       ],
