@@ -8,7 +8,6 @@ import { Transactional as HslTransactional } from 'typeorm-transactional';
 export const _TypeormRepository_metakey = 'entity_type_name';
 
 export function TypeormRepository(type: any): ClassDecorator {
-  // return createClassDecorator(metakey, [type]);
   return (target) => {
     Reflect.defineMetadata(_TypeormRepository_metakey, [type], target);
     return target;
@@ -31,13 +30,24 @@ export function getDataSourceProviderName(name?: string): string {
   return `TYPEORM_${name || 'DEFAULT'}_DATASOURCE`;
 }
 
-export type TransactionalOptions = WrapInTransactionOptions
 
-export function TypeormTransactional(options: TransactionalOptions = {}): MethodDecorator {
+export function Transactional(options: TransactionalOptions = {}): MethodDecorator {
   return HslTransactional({
     ...options,
     name: getDataSourceProviderName(options.name as string),
     connectionName: getDataSourceProviderName(options.connectionName),
   });
 }
+
+export const TypeormTransactional = Transactional;
+export type TransactionalOptions = WrapInTransactionOptions
+
+export {
+  runInTransaction,
+  runOnTransactionCommit,
+  runOnTransactionComplete,
+  runOnTransactionRollback,
+  getDataSourceByName,
+} from 'typeorm-transactional';
+
 

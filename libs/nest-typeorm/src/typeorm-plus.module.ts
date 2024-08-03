@@ -1,4 +1,4 @@
-import { FactoryProvider, Global, Logger, Module, OnApplicationBootstrap } from '@nestjs/common';
+import { FactoryProvider, Global, Logger, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import {
   _TypeormRepository_metakey,
@@ -8,19 +8,18 @@ import {
   TypeOrmPlusModuleOptions,
 } from './const';
 import { TypeOrmLogger } from './logger';
-import { addTransactionalDataSource, initializeTransactionalContext } from 'typeorm-transactional';
-import { ModuleRef } from '@nestjs/core';
+import { addTransactionalDataSource, initializeTransactionalContext, StorageDriver } from 'typeorm-transactional';
 
-
+initializeTransactionalContext({
+  maxHookHandlers: Number.MAX_VALUE,
+  storageDriver: StorageDriver.CLS_HOOKED,
+});
 
 @Module({})
 @Global()
-export class TypeormPlusModule implements OnApplicationBootstrap {
+export class TypeormPlusModule {
 
-  private logger = new Logger(TypeormPlusModule.name);
-
-  constructor(private moduleRef: ModuleRef) {
-  }
+  private static logger = new Logger(TypeormPlusModule.name);
 
   public static registerAsync(options: TypeOrmPlusModuleAsyncOptions) {
     const configProvider = {
@@ -34,24 +33,26 @@ export class TypeormPlusModule implements OnApplicationBootstrap {
       if (entityClass && entityClass.length > 0) return entityClass[0];
     });
 
+    const dataSourceToken = getDataSourceProviderName(options.datasource);
     const datasourceProvider = {
-      provide: getDataSourceProviderName(options.datasource),
-      useFactory: async (config: TypeOrmPlusModuleOptions) => {
+      provide: dataSourceToken,
+      useFactory: async (config: TypeOrmPlusModuleOptions): Promise<DataSource> => {
         const dataSource = new DataSource({
           ...config,
           synchronize: true,
           logger: config.logger ? new TypeOrmLogger(config) : null,
           entities: entityList,
         });
-        return dataSource.initialize();
+        await dataSource.initialize();
+        this.logger.log(`init datasource [${dataSourceToken}] success`);
+        return addTransactionalDataSource({
+          dataSource,
+          name: dataSourceToken,
+        });
       },
       inject: [CONFIG_PROVIDER_NAME],
     };
-
-    console.log(datasourceProvider)
-
     const repositoryProviders: Array<FactoryProvider> = [];
-
     for (const repository of options.repository) {
       const entityClassList: any = Reflect.getMetadata(_TypeormRepository_metakey, repository);
       if (!entityClassList || entityClassList.length <= 0) {
@@ -76,23 +77,4 @@ export class TypeormPlusModule implements OnApplicationBootstrap {
   }
 
 
-  public onApplicationBootstrap() {
-    try {
-      this.logger.log('register transaction onApplicationBootstrap');
-      const conf: TypeOrmPlusModuleOptions = this.moduleRef.get(CONFIG_PROVIDER_NAME, { strict: false });
-
-      initializeTransactionalContext();
-      const dataSourceName = conf.name;
-      const dataSourceToken = getDataSourceProviderName(dataSourceName);
-      this.logger.log(`register datasource: ${dataSourceToken}`);
-      const dataSource = this.moduleRef.get(dataSourceToken, { strict: false });
-      addTransactionalDataSource({
-        dataSource,
-        name: dataSourceToken,
-      });
-    } catch (e) {
-      this.logger.error('onApplicationBootstrap error');
-      this.logger.error(e.stack);
-    }
-  }
 }
