@@ -1,10 +1,11 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { Logger, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Principle } from '../index';
 
-export class JwtAuthGuardClassInner extends AuthGuard('jwt') {
+export class JwtTokenGuardClassInner extends AuthGuard('jwt') {
   private readonly scopes: Array<string>;
   private readonly noValidate: boolean = true;
+  private logger = new Logger(JwtTokenGuardClassInner.name);
 
   constructor(noValidate: boolean, ...scopes: string[]) {
     super();
@@ -13,6 +14,7 @@ export class JwtAuthGuardClassInner extends AuthGuard('jwt') {
   }
 
   handleRequest(err, user, info) {
+    this.logger.debug('start handleRequest')
     if (this.noValidate) {
       if (err) {
         throw err || new UnauthorizedException((info || {}).message);
@@ -33,7 +35,7 @@ export class JwtAuthGuardClassInner extends AuthGuard('jwt') {
       return;
     }
     if (!principle.scopes || principle.scopes.length <= 0) {
-      throw new UnauthorizedException(`no scope all`);
+      throw new UnauthorizedException(`no scope`);
     }
     for (const reqScope of this.scopes) {
       if (!principle.scopes.includes(reqScope)) {
@@ -43,12 +45,10 @@ export class JwtAuthGuardClassInner extends AuthGuard('jwt') {
   }
 }
 
-export function JwtOAuthGuard(...scopes: string[]) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  return new JwtAuthGuardClassInner(false, ...scopes);
+export function JwtTokenGuard(...scopes: string[]) {
+  return new JwtTokenGuardClassInner(false, ...scopes);
 }
 
-export function JwtOAuthUser() {
-  return new JwtAuthGuardClassInner(true);
+export function JwtTokenUser() {
+  return new JwtTokenGuardClassInner(true);
 }

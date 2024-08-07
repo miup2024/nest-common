@@ -1,10 +1,8 @@
-import { DynamicModule, Global, Module, ValueProvider } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common/interfaces';
 import { JwtModule, JwtModuleAsyncOptions } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import * as jwt from 'jsonwebtoken';
-import { JwtAuthGuardClassInner } from './guard/auth.guard';
 
 export const OAUTH_CLIENT_MODULE_OPTIONS = 'OAUTH_CLIENT_MODULE_OPTIONS';
 
@@ -52,7 +50,6 @@ export class OauthClientModule {
       module: OauthClientModule,
       imports: [
         ...(options.imports || []),
-        PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.registerAsync({
           useFactory: (options: OauthClientModuleOptions) => {
             return options.jwt;
@@ -65,22 +62,4 @@ export class OauthClientModule {
     };
   }
 
-  public static register(options: OauthClientModuleOptions) {
-    const fromTypes = new Set(options.fromRequest || []);
-    const jwtStrategy = new JwtStrategy(fromTypes, options.jwt);
-    const jwtStrategyProvider: ValueProvider = {
-      provide: JwtStrategy,
-      useValue: jwtStrategy,
-    };
-
-    return {
-      module: OauthClientModule,
-      imports: [
-        PassportModule.register({ defaultStrategy: 'jwt' }),
-        JwtModule.register(options.jwt),
-      ],
-      providers: [jwtStrategyProvider],
-      exports: [jwtStrategyProvider],
-    };
-  }
 }

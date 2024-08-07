@@ -1,9 +1,8 @@
-import { DynamicModule, Global, Module, ValueProvider } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { FactoryProvider, ModuleMetadata } from '@nestjs/common/interfaces';
 import { JwtStore, OauthServer, OauthStoreInterface, TokenStoreInterface } from '.';
 import * as jwt from 'jsonwebtoken';
 import { OauthStrategy } from './strategy/oauth.strategy';
-import { PassportModule } from '@nestjs/passport';
 
 export const OAUTH_SERVER_MODULE_OPTIONS = 'OAUTH_SERVER_MODULE_OPTIONS';
 
@@ -71,7 +70,7 @@ export class OauthServerModule {
 
     return {
       module: OauthServerModule,
-      imports: [PassportModule.register({}), ...(options.imports || [])],
+      imports: [ ...(options.imports || [])],
       providers: [
         configProvider,
         oauthServiceProvider,

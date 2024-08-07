@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import {
   AuthPrinciple,
-  JwtOAuthGuard,
-  JwtTokenGuard,
+  JwtTokenGuard, OauthGuard,
   Principle,
 } from '@miup/nest-oauth';
+import { CheckTokenGuard } from '../libs/nest-oauth/src/guard/check.guard';
 
 @Controller('demo')
 export class AppController {
@@ -26,20 +26,32 @@ export class AppController {
   }
 
   @Post('authorie')
-  @UseGuards(JwtTokenGuard('code'))
+  @UseGuards(OauthGuard('code'))
   async authorie(@Req() request) {
+    this.logger.debug('start authorie');
     return request.code;
   }
 
+  // @Post('authorie')
+  // @UseGuards(JwtTokenGuard('code'))
+  // async authorie(@Req() request) {
+  //   return request.code;
+  // }
+
   @Post('login')
-  @UseGuards(JwtTokenGuard('token'))
+  @UseGuards(OauthGuard('token'))
   async login(@Req() request) {
     return request.token;
   }
-
   @All('me')
-  @UseGuards(JwtOAuthGuard('scope'))
+  @UseGuards(CheckTokenGuard())
   async me(@AuthPrinciple() principle: Principle) {
+    console.log(principle)
+    return principle;
+  }
+  @All('check')
+  @UseGuards(JwtTokenGuard())
+  async check(@AuthPrinciple() principle: Principle) {
     return principle;
   }
 }

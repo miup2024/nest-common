@@ -1,6 +1,6 @@
 import { OauthClient, OauthUser } from './entity';
 
-export interface Principle {
+export type Principle = {
   userId: string;
   client: OauthClient;
   userInfo: OauthUser;

@@ -5,10 +5,7 @@ import { ConfigService } from '@miup/nest-config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const logger = app.get(Log4j);
-  const config = app.get<ConfigService>(ConfigService);
-  app.useLogger(logger);
-  await app.listen(config.get('port'));
+  await app.listen(8088);
 }
 
 bootstrap();

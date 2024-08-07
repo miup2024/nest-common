@@ -10,6 +10,8 @@ import {
 } from '..';
 import * as jwt from 'jsonwebtoken';
 import * as ms from 'ms';
+import { TokenExpiredError } from '@nestjs/jwt';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 const defaultTokenOptionExpiresIn = '1h';
 
@@ -56,7 +58,7 @@ export class JwtStore implements TokenStoreInterface {
     user: OauthUser,
     client: OauthClient,
     scope: string,
-    allParams: any,
+    req: Request,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
@@ -82,7 +84,7 @@ export class JwtStore implements TokenStoreInterface {
     client: OauthClient,
     user: OauthUser,
     scopes: string,
-    allParams: any,
+    req: Request,
   ): Promise<OauthToken> {
     return new Promise((resolve, reject) => {
       try {
@@ -137,15 +139,20 @@ export class JwtStore implements TokenStoreInterface {
         ) as CodeData;
         resolve(data);
       } catch (e) {
-        reject(e);
+        console.log(e);
+
+        if (e instanceof TokenExpiredError) {
+          reject(new UnauthorizedException('code expired'));
+        }else{
+          reject(new UnauthorizedException('unknown error'))
+        }
       }
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
   getRefreshTokenData(
     refresh_token: string,
-    allParams: any,
+    req: Request,
   ): Promise<TokenData> {
     return new Promise((resolve, reject) => {
       try {

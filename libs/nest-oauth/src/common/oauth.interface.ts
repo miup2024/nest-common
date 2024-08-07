@@ -4,7 +4,7 @@ import {
   OauthClient,
   OauthToken,
   OauthType,
-  OauthUser,
+  OauthUser, Principle,
   TokenData,
 } from '..';
 
@@ -13,22 +13,22 @@ export interface TokenStoreInterface {
     client: OauthClient,
     user: OauthUser,
     scopes: string,
-    allParams: any,
+    req: Request,
   ): Promise<OauthToken>;
 
   getRefreshTokenData(
     refresh_token: string,
-    allParams: any,
+    req: Request,
   ): Promise<TokenData>;
 
   buildAndSaveCode(
     user: OauthUser,
     client: OauthClient,
     scope: string,
-    allParams: any,
+    req: Request,
   ): Promise<string>;
 
-  getCodeData(code: string, allParams: any): Promise<CodeData>;
+  getCodeData(code: string, req: Request): Promise<CodeData>;
 }
 
 export interface OauthStoreInterface {
@@ -101,4 +101,10 @@ export interface RefreshTokenParams extends TokenParams {
   refresh_token: string;
 
   [properName: string]: any;
+}
+
+export interface CheckInterceptor {
+  preCheck(req:Request): Promise<void>;
+
+  postCheck(principle: Principle): Promise<any>;
 }

@@ -4,14 +4,7 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": false,
-    "webpack": false,
-    "assets": [
-      {
-        "include": "**/*.env",
-        "watchAssets": true,
-        "outDir": "./dist/src"
-      }
-    ]
+    "webpack": false
   },
   "projects": {
     "nest-oauth": {
