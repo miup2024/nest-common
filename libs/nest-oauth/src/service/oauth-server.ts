@@ -20,6 +20,7 @@ import {
   OauthUser,
   AuthorizationCode,
 } from '..';
+import { all } from 'axios';
 
 export class OauthServer implements OauthInterface {
   private oauthStore: OauthStoreInterface;
@@ -41,27 +42,34 @@ export class OauthServer implements OauthInterface {
   ): Promise<AuthorizationCode> {
     this.logger.debug('start authorizationCode');
     const client: OauthClient = await this.oauthStore.getClient(
-      params.client_id,
-      params.scope,
+      {
+        clientId: params.client_id,
+        scopes: params.scope,
+      },
       allParams,
     );
     if (!client) {
       throw new UnauthorizedException('client invalidate');
     }
     const user: OauthUser = await this.oauthStore.getUser(
-      params.username,
-      params.password,
+      {
+        username: params.username,
+        password: params.password,
+      },
       allParams,
     );
     if (!user) {
       throw new UnauthorizedException('user invalidate');
     }
     const codeStr: string = await this.tokenStore.buildAndSaveCode(
-      user,
-      client,
-      params.scope,
-      allParams,
-    );
+        {
+          user,
+          client,
+          scopes: params.scope,
+        },
+        allParams,
+      )
+    ;
     this.logger.debug('end authorizationCode');
     return {
       code: codeStr,
@@ -73,25 +81,25 @@ export class OauthServer implements OauthInterface {
 
   async token(
     params: OauthCodeTokenParams | PasswordTokenParams | RefreshTokenParams,
-    request?: Request,
+    allParams?: any,
   ): Promise<OauthToken> {
     switch (params.grant_type) {
       case OauthType.AuthorizationCode:
         return await this._AuthorizationCodeToken(
           params as OauthCodeTokenParams,
-          request,
+          allParams,
         );
         break;
       case OauthType.Password:
         return await this._PasswordToken(
           params as PasswordTokenParams,
-          request,
+          allParams,
         );
         break;
       case OauthType.RefreshToken:
         return await this._RefreshToken(
           params as RefreshTokenParams,
-          request,
+          allParams,
         );
         break;
       default:
@@ -102,75 +110,90 @@ export class OauthServer implements OauthInterface {
 
   private async _AuthorizationCodeToken(
     params: OauthCodeTokenParams,
-    request?: Request,
+    allParams?: any,
   ): Promise<OauthToken> {
     this.logger.debug('start AuthorizationCodeToken');
     const codeData: CodeData = await this.tokenStore.getCodeData(
       params.code,
-      request,
+      allParams,
     );
     const client: OauthClient = await this.oauthStore.getClientAndValidate(
-      codeData.client.clientId,
-      params.client_secret,
-      codeData.scope,
-      request,
+      {
+        clientId: params.client_id,
+        clientSecret: params.client_secret,
+        scopes: params.scope,
+      },
+      allParams,
     );
     if (!client) {
       throw new UnauthorizedException('client invalidate');
     }
     const user: OauthUser = codeData.user;
     return await this.tokenStore.buildAndStoreToken(
-      client,
-      user,
-      codeData.scope,
-      request,
+      {
+        client,
+        user,
+        scopes:codeData.scope,
+      },
+      allParams,
     );
   }
 
   private async _PasswordToken(
     params: PasswordTokenParams,
-    request?: Request,
+    allParams?: any,
   ): Promise<OauthToken> {
     this.logger.debug('start PasswordToken');
+
     const client: OauthClient = await this.oauthStore.getClientAndValidate(
-      params.client_id,
-      params.client_secret,
-      params.scope,
-      request,
+      {
+        clientId: params.client_id,
+        clientSecret: params.client_secret,
+        scopes: params.scope,
+      },
+      allParams,
     );
     if (!client) {
       throw new UnauthorizedException('client invalidate');
     }
     const user: OauthUser = await this.oauthStore.getUser(
-      params.username,
-      params.password,
-      request,
+      {
+        username: params.username,
+        password: params.password,
+      },
+      allParams,
     );
     if (!user) {
       throw new UnauthorizedException('user invalidate');
     }
     return await this.tokenStore.buildAndStoreToken(
-      client,
-      user,
-      params.scope,
-      request,
+      {
+        client,
+        user,
+        scopes: params.scope,
+      },
+      allParams,
     );
   }
 
   private async _RefreshToken(
     params: RefreshTokenParams,
-    request?: Request,
+    allParams?: any,
   ): Promise<OauthToken> {
     this.logger.debug('start RefreshToken');
     const refreshTokenData: TokenData = await this.tokenStore.getRefreshTokenData(
-      params.refresh_token,
-      request,
+      {
+        refreshToken: params.refresh_token,
+      },
+      allParams,
     );
     return await this.tokenStore.buildAndStoreToken(
-      refreshTokenData.client,
-      refreshTokenData.user,
-      refreshTokenData.scope,
-      request,
+      {
+        client: refreshTokenData.client,
+        user: refreshTokenData.user,
+        scopes: refreshTokenData.scope,
+      },
+      allParams,
     );
   }
 }

@@ -10,22 +10,28 @@ import {
 
 export interface TokenStoreInterface {
   buildAndStoreToken(
-    client: OauthClient,
-    user: OauthUser,
-    scopes: string,
-    req: Request,
+    params: {
+      client: OauthClient,
+      user: OauthUser,
+      scopes: string,
+    },
+    allParams?: any,
   ): Promise<OauthToken>;
 
   getRefreshTokenData(
-    refresh_token: string,
-    req: Request,
+    params: {
+      refreshToken: string,
+    },
+    allParams?: any,
   ): Promise<TokenData>;
 
   buildAndSaveCode(
-    user: OauthUser,
-    client: OauthClient,
-    scope: string,
-    req: Request,
+    params: {
+      user: OauthUser,
+      client: OauthClient,
+      scopes: string,
+    },
+    allParams?: any,
   ): Promise<string>;
 
   getCodeData(code: string, req: Request): Promise<CodeData>;
@@ -33,21 +39,27 @@ export interface TokenStoreInterface {
 
 export interface OauthStoreInterface {
   getUser(
-    username: string,
-    password: string,
-    allParams: any,
+    params: {
+      username: string,
+      password: string,
+    },
+    allParams?: any,
   ): Promise<OauthUser>;
 
   getClient(
-    client_id: string,
-    scope: string,
+    params: {
+      clientId: string,
+      scopes: string
+    },
     allParams?: any,
   ): Promise<OauthClient>;
 
   getClientAndValidate(
-    client_id: string,
-    client_secret: string,
-    scope: string,
+    params: {
+      clientId: string,
+      clientSecret: string,
+      scopes: string
+    },
     allParams?: any,
   ): Promise<OauthClient>;
 }
@@ -104,7 +116,7 @@ export interface RefreshTokenParams extends TokenParams {
 }
 
 export interface CheckInterceptor {
-  preCheck(req:Request): Promise<void>;
+  preCheck(req: any): Promise<void>;
 
   postCheck(principle: Principle): Promise<any>;
 }

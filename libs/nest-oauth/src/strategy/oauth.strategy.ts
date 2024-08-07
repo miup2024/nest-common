@@ -37,12 +37,20 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'oauth') {
 
   async authenticateToken(req: any, options?: any): Promise<OauthToken> {
     options.property = 'token';
-    return this.oauthServer.token(this.buildParams(req), req);
+    return this.oauthServer.token(this.buildParams(req), {
+      ...options,
+      ...req.query,
+      ...req.body,
+    });
   }
 
   async authenticateCode(req: any, options?: any): Promise<AuthorizationCode> {
     options.property = 'code';
-    return this.oauthServer.authorizationCode(this.buildParams(req), req);
+    return this.oauthServer.authorizationCode(this.buildParams(req), {
+      ...options,
+      ...req.query,
+      ...req.body,
+    });
   }
 
   buildParams(req: any) {
@@ -68,7 +76,7 @@ export class OauthStrategy extends PassportStrategy(Strategy, 'oauth') {
       scope,
       state,
       redirect_uri,
-      response_type
+      response_type,
     };
     return params;
   }
