@@ -11,7 +11,7 @@ export class CheckStrategy extends PassportStrategy(Strategy, 'check') {
 
   constructor(
     private config: OauthCheckModuleOptions,
-    private interceptor: CheckInterceptor = new DefaultInterceptor()) {
+    private interceptor: CheckInterceptor ) {
     super();
   }
 
@@ -27,9 +27,13 @@ export class CheckStrategy extends PassportStrategy(Strategy, 'check') {
   }
 
   async _authenticate(req: Request, options?: any) {
-    await this.interceptor.preCheck(req);
-    const res = await this.doHttpGet(req);
-    return await this.interceptor.postCheck(res);
+    if (this.interceptor)
+      await this.interceptor.preCheck(req, options);
+    let princpile: Principle = await this.doHttpGet(req);
+    if (this.interceptor)
+      princpile = await this.interceptor.postCheck(princpile, req, options);
+    return princpile;
+
   }
 
 
@@ -72,17 +76,4 @@ export class CheckStrategy extends PassportStrategy(Strategy, 'check') {
     });
   }
 
-}
-
-
-class DefaultInterceptor implements CheckInterceptor {
-  async postCheck(principle: Principle): Promise<any> {
-    return Promise.resolve({
-      ...principle,
-      asdas: 'asdasd',
-    });
-  }
-
-  async preCheck(req: Request) {
-  }
 }

@@ -28,7 +28,6 @@ export interface OauthClientModuleAsyncOptions
 }
 
 @Global()
-@Module({})
 export class OauthClientModule {
   public static registerAsync(
     options: OauthClientModuleAsyncOptions,

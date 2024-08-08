@@ -116,7 +116,7 @@ export interface RefreshTokenParams extends TokenParams {
 }
 
 export interface CheckInterceptor {
-  preCheck(req: any): Promise<void>;
+  preCheck(req: Request, options?: any): Promise<void>;
 
-  postCheck(principle: Principle): Promise<any>;
+  postCheck(principle: Principle, req: Request, options?: any): Promise<any>;
 }
