@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { ModuleMetadata } from '@nestjs/common/interfaces';
+import { FactoryProvider, ModuleMetadata } from '@nestjs/common/interfaces';
 import { CheckStrategy } from './strategy/check.strategy';
 import { CheckInterceptor } from './common/oauth.interface';
 
@@ -24,7 +24,7 @@ export interface OauthCheckModuleAsyncOptions
 export class OauthCheckModule {
   public static registerAsync(options: OauthCheckModuleAsyncOptions): DynamicModule {
     const configProviderName = Symbol('OauthCheckModuleAsyncOptions');
-    const configProvider = {
+    const configProvider: FactoryProvider = {
       provide: configProviderName,
       useFactory: options.useFactory,
       inject: options.inject,
@@ -35,10 +35,13 @@ export class OauthCheckModule {
         return new CheckStrategy(config, config.interceptor);
       },
       inject: [configProviderName],
+      imports: options.imports,
     };
     return {
       module: OauthCheckModule,
-      imports: [],
+      imports: [
+        ...(options.imports || []),
+      ],
       providers: [configProvider, checkStrategyProvider],
     };
   }

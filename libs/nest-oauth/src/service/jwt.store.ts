@@ -55,17 +55,15 @@ export class JwtStore implements TokenStoreInterface {
   }
 
   buildAndSaveCode(
-    user: OauthUser,
-    client: OauthClient,
-    scope: string,
-    req: Request,
+    { user, client, scopes },
+    allParams?:any,
   ): Promise<string> {
     return new Promise((resolve, reject) => {
       try {
         const codeDate: CodeData = {
           user: user,
           client: client,
-          scope: scope || '',
+          scope: scopes || '',
           signTime: new Date(),
         };
         const code = jwt.sign(
@@ -81,10 +79,8 @@ export class JwtStore implements TokenStoreInterface {
   }
 
   buildAndStoreToken(
-    client: OauthClient,
-    user: OauthUser,
-    scopes: string,
-    req: Request,
+    { client, user, scopes },
+    allParams?:any,
   ): Promise<OauthToken> {
     return new Promise((resolve, reject) => {
       try {
@@ -143,21 +139,21 @@ export class JwtStore implements TokenStoreInterface {
 
         if (e instanceof TokenExpiredError) {
           reject(new UnauthorizedException('code expired'));
-        }else{
-          reject(new UnauthorizedException('unknown error'))
+        } else {
+          reject(new UnauthorizedException('unknown error'));
         }
       }
     });
   }
 
   getRefreshTokenData(
-    refresh_token: string,
-    req: Request,
+    { refreshToken },
+    allParams?:any,
   ): Promise<TokenData> {
     return new Promise((resolve, reject) => {
       try {
         const data: TokenData = jwt.verify(
-          refresh_token,
+          refreshToken,
           this.optionsRefresh.publicKey ||
           (this.optionsRefresh.secretOrPrivateKey as any),
           this.vOptions,
