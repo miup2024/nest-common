@@ -2,8 +2,6 @@ import { OauthClient, OauthUser } from './entity';
 
 export type Principle = {
   userId: string;
-  client: OauthClient;
-  userInfo: OauthUser;
-  loginTime: Date;
+  clientId: string;
   scopes?: Array<string>;
 }

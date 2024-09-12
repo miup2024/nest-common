@@ -27,7 +27,7 @@ export interface OauthClientModuleAsyncOptions
   extraProviders?: [];
 }
 
-@Global()
+@Module({})
 export class OauthClientModule {
   public static registerAsync(
     options: OauthClientModuleAsyncOptions,
@@ -49,15 +49,9 @@ export class OauthClientModule {
       module: OauthClientModule,
       imports: [
         ...(options.imports || []),
-        JwtModule.registerAsync({
-          useFactory: (options: OauthClientModuleOptions) => {
-            return options.jwt;
-          },
-          inject: [OAUTH_CLIENT_MODULE_OPTIONS],
-        } as JwtModuleAsyncOptions),
       ],
       providers: [jwtStrategyProvider, configProvider],
-      exports: [jwtStrategyProvider, configProvider],
+      exports: [],
     };
   }
 

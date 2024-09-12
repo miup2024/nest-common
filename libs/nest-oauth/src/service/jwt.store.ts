@@ -86,9 +86,7 @@ export class JwtStore implements TokenStoreInterface {
       try {
         const principle: Principle = {
           userId: user.userId,
-          userInfo: user,
-          client: client,
-          loginTime: new Date(),
+          clientId: client.clientId,
           scopes: scopes ? scopes.split(',') : [],
         };
         principle.scopes.sort();
